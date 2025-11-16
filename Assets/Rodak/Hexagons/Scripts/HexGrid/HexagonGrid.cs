@@ -1,18 +1,44 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Rodak.Hexagons.HexGrid
 {
+    /// <summary>
+    /// Defines a grid of hexagons, using cubic coordinates (i, j, k where i+j+k=0),
+    /// that stores a value of type T for each hexagon.
+    /// The grid shape is a rhombus (or diamond) centered at (0, 0).
+    /// </summary>
+    /// <typeparam name="T">The type of value stored in each hexagon cell.</typeparam>
     public class HexagonGrid<T>
     {
         private readonly Dictionary<Hexagon, T> values = new();
+
+        /// <summary>
+        /// Gets a list of all <see cref="Hexagon"/> positions currently in the grid.
+        /// </summary>
         public List<Hexagon> Hexagons => values.Keys.ToList();
 
+        /// <summary>
+        /// Gets the radial size of the grid, which is the maximum coordinate magnitude
+        /// from the center (0, 0). A size of 0 is one hexagon; a size of 1 is 7 hexagons.
+        /// </summary>
         public int Size { get; private set; }
+
+        /// <summary>
+        /// Gets the number of hexagons across the longest dimension (center to opposite edge).
+        /// This is calculated as (Size * 2) + 1.
+        /// </summary>
         public int SizeAcross => Size * 2 + 1;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HexagonGrid{T}"/> class.
+        /// The grid is generated as a rhombus of a given size centered at (0, 0).
+        /// </summary>
+        /// <param name="size">The radial size of the grid (maximum coordinate magnitude). Must be non-negative.</param>
+        /// <param name="createValue">A factory function that is called for each new <see cref="Hexagon"/>
+        /// position to generate and assign its initial value.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="size"/> is negative.</exception>
         public HexagonGrid(int size, Func<Hexagon, T> createValue)
         {
             if (size < 0) throw new ArgumentException($"{nameof(size)} of a {nameof(HexagonGrid<T>)} must be positive");
@@ -22,6 +48,8 @@ namespace Rodak.Hexagons.HexGrid
             {
                 for (int j = -Size; j <= Size; j++)
                 {
+                    // This condition ensures the generated shape is a rhombus centered at (0,0,0)
+                    // The implicit k coordinate is -(i + j). The condition checks if |k| <= Size.
                     if (i + j > Size || i + j < -Size) continue;
                     Hexagon position = new(i, j);
                     values.Add(position, createValue(position));
@@ -29,6 +57,10 @@ namespace Rodak.Hexagons.HexGrid
             }
         }
 
+        /// <summary>
+        /// Executes an action for every hexagon and its associated value in the grid.
+        /// </summary>
+        /// <param name="action">The action to perform. It takes the <see cref="Hexagon"/> position and its value (T).</param>
         public void ForEach(Action<Hexagon, T> action)
         {
             Hexagons.ForEach((Hexagon position) =>
@@ -37,16 +69,34 @@ namespace Rodak.Hexagons.HexGrid
             });
         }
 
+        /// <summary>
+        /// Checks if a specific <see cref="Hexagon"/> position is contained within the grid bounds.
+        /// </summary>
+        /// <param name="position">The <see cref="Hexagon"/> coordinate to check.</param>
+        /// <returns><c>true</c> if the position is in the grid; otherwise, <c>false</c>.</returns>
         public bool ContainsHexagon(Hexagon position)
         {
             return values.ContainsKey(position);
         }
 
+        /// <summary>
+        /// Attempts to retrieve the value associated with a specific <see cref="Hexagon"/> position.
+        /// </summary>
+        /// <param name="position">The <see cref="Hexagon"/> coordinate.</param>
+        /// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found;
+        /// otherwise, the default value for the type of the value parameter.</param>
+        /// <returns><c>true</c> if the grid contains the position; otherwise, <c>false</c>.</returns>
         public bool TryGetValue(Hexagon position, out T value)
         {
             return values.TryGetValue(position, out value);
         }
 
+        /// <summary>
+        /// Attempts to set a new value for a specific <see cref="Hexagon"/> position.
+        /// </summary>
+        /// <param name="position">The <see cref="Hexagon"/> coordinate to update.</param>
+        /// <param name="value">The new value to assign.</param>
+        /// <returns><c>true</c> if the position exists and was updated; otherwise, <c>false</c>.</returns>
         public bool SetValue(Hexagon position, T value)
         {
             if (!values.ContainsKey(position))
@@ -55,6 +105,10 @@ namespace Rodak.Hexagons.HexGrid
             return true;
         }
 
+        /// <summary>
+        /// Returns a string that represents the current grid.
+        /// </summary>
+        /// <returns>A string in the format "HexGrid[Size, Type]".</returns>
         public override string ToString()
         {
             return $"HexGrid[{Size}, {typeof(T)}]";

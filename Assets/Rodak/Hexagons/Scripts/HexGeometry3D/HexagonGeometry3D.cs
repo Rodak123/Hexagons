@@ -3,34 +3,63 @@ using UnityEngine;
 
 namespace Rodak.Hexagons.HexGeometry3D
 {
+    /// <summary>
+    /// Extends the hexagon class with many 3D geomtery related functions.
+    /// </summary>
     public static class HexagonGeometry3D
     {
+        /// <summary>
+        /// Default PlacementPlane used when none specified.
+        /// </summary>
         public static PlacementPlane DefaultPlacementPlane = PlacementPlane.XZPlane;
 
-        private static Vector3 LayOnPlacementPlane(Vector3 vector, PlacementPlane placementPlane = null)
-        {
-            if (placementPlane == null) placementPlane = DefaultPlacementPlane;
-            return placementPlane.LayOnPlane(vector);
-        }
+        private static PlacementPlane GetPlacementPlane(PlacementPlane placementPlane) => placementPlane ?? DefaultPlacementPlane;
 
-        public static Vector3 GetCorner3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
-        {
-            return LayOnPlacementPlane(hexagon.GetCorner(index), placementPlane);
-        }
-
-        public static Vector3 GetSide3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
-        {
-            return LayOnPlacementPlane(hexagon.GetSide(index), placementPlane);
-        }
-
+        /// <summary>
+        /// Calculates a hexagon's center on a 3D plane.
+        /// </summary>
+        /// <param name="hexagon">Hexagon</param>
+        /// <param name="placementPlane">3D Plane</param>
+        /// <returns>Center position</returns>
         public static Vector3 GetCenter3D(this Hexagon hexagon, PlacementPlane placementPlane = null)
         {
-            return LayOnPlacementPlane(hexagon.GetCenter(), placementPlane);
+            return GetPlacementPlane(placementPlane).LayOnPlane(hexagon.GetCenter());
         }
 
-        public static Hexagon GetHexagonAt(float x, float z)
+        /// <summary>
+        /// Calculates a hexagon's corner on a 3D plane.
+        /// </summary>
+        /// <param name="hexagon">Hexagon</param>
+        /// <param name="index">Vertex index</param>
+        /// <param name="placementPlane">3D plane</param>
+        /// <returns>Corner position</returns>
+        public static Vector3 GetCorner3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
         {
-            return HexagonGeometry.GetHexagonAt(x, z);
+            return GetPlacementPlane(placementPlane).LayOnPlane(hexagon.GetCorner(index));
+        }
+
+        /// <summary>
+        /// Calculates a hexagon's side on a 3D plane.
+        /// </summary>
+        /// <param name="hexagon">Hexagon</param>
+        /// <param name="index">Vertex index</param>
+        /// <param name="placementPlane">3D plane</param>
+        /// <returns>Side center position</returns>
+        public static Vector3 GetSide3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
+        {
+            return GetPlacementPlane(placementPlane).LayOnPlane(hexagon.GetSide(index));
+        }
+
+        /// <summary>
+        /// Calculates a hexagon from a 3D point.
+        /// </summary>
+        /// <param name="point">3D point</param>
+        /// <param name="placementPlane">3D plane</param>
+        /// <returns>Hexagon containing this point</returns>
+        public static Hexagon GetHexagonAt(Vector3 point, PlacementPlane placementPlane = null)
+        {
+            Vector2 planePosition = GetPlacementPlane(placementPlane).Get2DPosition(point);
+            return HexagonGeometry.GetHexagonAt(planePosition.x, planePosition.y);
         }
     }
 }

@@ -4,20 +4,47 @@ using System.Linq;
 
 namespace Rodak.Hexagons.HexMap
 {
+    /**
+     * Provides static utility functions for calculating properties of hexagon chunks.
+     */
     public static class HexagonChunk
     {
+        /// <summary>
+        /// Calculates the total number of hexagons across the width or height of the chunk.
+        /// </summary>
+        /// <param name="chunkSize">The size parameter of the chunk.</param>
+        /// <returns>The total size (width/height) of the chunk's bounding box.</returns>
         public static int GetSizeAcross(int chunkSize) => chunkSize * 2 + 1;
     }
 
+    /// <summary>
+    /// Represents a fixed-size square group of hexagon tiles, typically used to partition a larger map.
+    /// </summary>
+    /// <typeparam name="TTile">The type of value stored in each hexagon tile.</typeparam>
     public class HexagonChunk<TTile>
     {
         private readonly Dictionary<Hexagon, TTile> values = new();
+        /// <summary>
+        /// Gets a list of the Hexagon coordinates for all tiles contained in this chunk.
+        /// </summary>
         public List<Hexagon> Hexagons => values.Keys.ToList();
 
+        /// <summary>
+        /// The size parameter used to define the chunk's boundaries. The actual size across is (2*Size + 1).
+        /// </summary>
         public readonly int Size;
 
+        /// <summary>
+        /// The Hexagon coordinate of the chunk's center in the map.
+        /// </summary>
         public readonly Hexagon Position;
 
+        /// <summary>
+        /// Initializes a new instance of the HexagonChunk class.
+        /// </summary>
+        /// <param name="position">The Hexagon coordinate of the chunk's center.</param>
+        /// <param name="size">The size parameter for the chunk's dimensions.</param>
+        /// <param name="createValue">A function used to generate the value for each hexagon tile.</param>
         public HexagonChunk(Hexagon position, int size, Func<Hexagon, Hexagon, TTile> createValue)
         {
             if (size < 0) throw new ArgumentException($"{nameof(size)} of a {nameof(HexagonChunk<TTile>)} must be positive");
@@ -36,6 +63,10 @@ namespace Rodak.Hexagons.HexMap
             }
         }
 
+        /// <summary>
+        /// Executes an action for every hexagon tile and its value in the chunk.
+        /// </summary>
+        /// <param name="action">The action to perform on each Hexagon and its value.</param>
         public void ForEach(Action<Hexagon, TTile> action)
         {
             Hexagons.ForEach((Hexagon position) =>
@@ -44,16 +75,33 @@ namespace Rodak.Hexagons.HexMap
             });
         }
 
+        /// <summary>
+        /// Checks if the chunk contains the tile at the given Hexagon coordinate.
+        /// </summary>
+        /// <param name="position">The Hexagon coordinate to check.</param>
+        /// <returns>True if the hexagon is in the chunk, false otherwise.</returns>
         public bool ContainsHexagon(Hexagon position)
         {
             return values.ContainsKey(position);
         }
 
+        /// <summary>
+        /// Attempts to retrieve the value of a hexagon tile in the chunk.
+        /// </summary>
+        /// <param name="position">The Hexagon coordinate of the tile.</param>
+        /// <param name="value">Output parameter: the tile's value if found, otherwise default.</param>
+        /// <returns>True if the value was successfully retrieved, false otherwise.</returns>
         public bool TryGetValue(Hexagon position, out TTile value)
         {
             return values.TryGetValue(position, out value);
         }
 
+        /// <summary>
+        /// Sets the value of a hexagon tile in the chunk.
+        /// </summary>
+        /// <param name="position">The Hexagon coordinate of the tile.</param>
+        /// <param name="value">The new value to set.</param>
+        /// <returns>True if the value was successfully set, false if the hexagon is not in the chunk.</returns>
         public bool SetValue(Hexagon position, TTile value)
         {
             if (!values.ContainsKey(position))
@@ -62,6 +110,10 @@ namespace Rodak.Hexagons.HexMap
             return true;
         }
 
+        /// <summary>
+        /// Returns a string representation of the HexagonChunk, including its position and size.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return $"HexChunk[{Position}, {Size}]";

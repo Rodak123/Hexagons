@@ -7,8 +7,19 @@ using Rodak.Hexagons.HexGeometry;
 
 namespace Rodak.Hexagons.HexGeometry3D
 {
+    /**
+     * Provides static methods for generating 3D meshes based on Hexagon geometry.
+     */
     public static class HexagonMesh
     {
+        /// <summary>
+        /// Creates a new MeshBuilder with a single hexagon face.
+        /// </summary>
+        /// <param name="hexagon">Hexagon</param>
+        /// <param name="flipped">Wheter to flip the normals</param>
+        /// <param name="yOffset">Normal offset</param>
+        /// <param name="placementPlane">3D plane</param>
+        /// <returns>MeshBuilder with a single hexagon face</returns>
         public static MeshBuilder GetMesh(this Hexagon hexagon, bool flipped, float yOffset = 0, PlacementPlane placementPlane = null)
         {
             Vector3 vertexOffset = placementPlane.Normal * yOffset;
@@ -37,6 +48,14 @@ namespace Rodak.Hexagons.HexGeometry3D
             return new(vertices, uv, triangles);
         }
 
+        /// <summary>
+        /// Creates a new MeshBuilder with prism walls, excluded directions are skipped.
+        /// </summary>
+        /// <param name="hexagon">Hexagon</param>
+        /// <param name="height">Height of the prism</param>
+        /// <param name="excludedDirections">Not generated prism directions</param>
+        /// <param name="placementPlane">3D plane</param>
+        /// <returns>MeshBuilder with prism walls</returns>
         public static MeshBuilder GetPrismWallsMesh(this Hexagon hexagon, float height = 1, IEnumerable<Hexagon> excludedDirections = null, PlacementPlane placementPlane = null)
         {
             MeshBuilder meshBuillder = new();

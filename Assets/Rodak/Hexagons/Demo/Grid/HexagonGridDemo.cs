@@ -8,11 +8,11 @@ namespace Rodak.Hexagons.Demo.Grid
     public class HexagonGridDemo : MonoBehaviour
     {
         [SerializeField, Min(1)] private int size = 6;
-        [SerializeField] private DemoPlacementPlane placementPlane = DemoPlacementPlane.XY;
+        [SerializeField] private Vector3 planeUp = Vector3.up;
 
         private void Update()
         {
-            PlacementPlane plane = DemoPlacementPlanes.GetPlacementPlane(placementPlane);
+            PlacementPlane plane = new(planeUp);
 
             HexagonGrid<int> hexagonGrid = new(size, CreateHexagonGridValue);
             HexagonGridDebug.DebugDraw(hexagonGrid, plane, Color.red);
