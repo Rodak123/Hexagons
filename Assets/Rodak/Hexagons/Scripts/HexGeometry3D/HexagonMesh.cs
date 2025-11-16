@@ -11,7 +11,7 @@ namespace Rodak.Hexagons.HexGeometry3D
     {
         public static MeshBuilder GetMesh(this Hexagon hexagon, bool flipped, float yOffset = 0, PlacementPlane placementPlane = null)
         {
-            Vector3 vertexOffset = Vector3.up * yOffset;
+            Vector3 vertexOffset = placementPlane.Normal * yOffset;
 
             Vector3[] vertices = new Vector3[7];
             for (int i = 0; i < 6; i++)
@@ -52,11 +52,11 @@ namespace Rodak.Hexagons.HexGeometry3D
                 float y = 0;
                 while (y < height)
                 {
-                    Vector3 A = startA + Vector3.up * y;
-                    Vector3 B = startB + Vector3.up * y;
+                    Vector3 A = startA + placementPlane.Normal * y;
+                    Vector3 B = startB + placementPlane.Normal * y;
 
-                    Vector3 C = A + Vector3.up;
-                    Vector3 D = B + Vector3.up;
+                    Vector3 C = A + placementPlane.Normal;
+                    Vector3 D = B + placementPlane.Normal;
 
                     Vector3[] vertices = new Vector3[]{
                         A, B,

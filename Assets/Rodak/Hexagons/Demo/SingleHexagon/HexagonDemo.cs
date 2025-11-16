@@ -1,6 +1,5 @@
 using Rodak.Hexagons.HexDebug;
 using Rodak.Hexagons.HexEditor;
-using Rodak.Hexagons.HexGeometry;
 using Rodak.Hexagons.HexGeometry3D;
 using Unity.Collections;
 using UnityEngine;

@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbed6ae7b33599e47b839a65a4a8f7dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rodak.Hexagons.Demo.Map.HexagonMapDemo
-  chunkSize: 6
+  chunkSize: 4
   initialSize: 2
   placementPlane: 0
 --- !u!1660057539 &9223372036854775807

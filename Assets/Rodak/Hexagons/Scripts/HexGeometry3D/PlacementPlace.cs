@@ -9,6 +9,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         public static readonly PlacementPlane YZPlane = new(1, 0, 0);
 
         public readonly Plane Plane;
+        public Vector3 Normal => Plane.normal;
 
         private readonly Vector3 planeRight;
         private readonly Vector3 planeForward;
