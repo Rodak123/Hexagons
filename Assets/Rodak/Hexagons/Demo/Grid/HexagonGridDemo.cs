@@ -1,4 +1,5 @@
 using Rodak.Hexagons.HexDebug;
+using Rodak.Hexagons.HexGeometry3D;
 using Rodak.Hexagons.HexGrid;
 using UnityEngine;
 
@@ -11,8 +12,10 @@ namespace Rodak.Hexagons.Demo.Grid
 
         private void Update()
         {
+            PlacementPlane plane = DemoPlacementPlanes.GetPlacementPlane(placementPlane);
+
             HexagonGrid<int> hexagonGrid = new(size, CreateHexagonGridValue);
-            HexagonGridDebug.DebugDraw(hexagonGrid, DemoPlacementPlanes.GetPlacementPlane(placementPlane), Color.red);
+            HexagonGridDebug.DebugDraw(hexagonGrid, plane, Color.red);
         }
 
         private int CreateHexagonGridValue(Hexagon position)

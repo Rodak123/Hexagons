@@ -10,6 +10,10 @@ namespace Rodak.Hexagons.HexEditor
     [CustomPropertyDrawer(typeof(EditableHexagon))]
     public class EditableHexagonDrawer : PropertyDrawer
     {
+        // If true, Q and R auto corrects S, S auto corrects Q
+        // If fale, Q auto corrects R, R auto corrects S, S auto corrects Q
+        public static bool TwoComponentAutoCorrect = false;
+
         private const string Q = "Q";
         private const string R = "R";
         private const string S = "S";
@@ -24,46 +28,41 @@ namespace Rodak.Hexagons.HexEditor
             EditorGUI.BeginDisabledGroup(isReadOnly);
 
             string[] propertyNames = { Q, R, S };
-            float propertyWidth = position.width / propertyNames.Length;
+            float spacing = 5f;
+
+            float totalFieldWidth = position.width - (spacing * (propertyNames.Length - 1));
+            float fieldWidth = totalFieldWidth / propertyNames.Length;
+            float labelWidth = 13f;
+
+            float oldLabelWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+
+            Rect fieldRect = new Rect(position.x, position.y, fieldWidth, position.height);
 
             for (int i = 0; i < propertyNames.Length; i++)
             {
-                string propertyName = propertyNames[i];
-                Rect propertyPosition = new(position.x + propertyWidth * i, position.y, propertyWidth, position.height);
+                if (i > 0)
+                {
+                    fieldRect.x += fieldWidth + spacing;
+                }
 
-                bool propertyChanged = AddSubProperty(propertyPosition, propertyName, i > 0, property);
-                if (propertyChanged)
+                string propertyName = propertyNames[i];
+                SerializedProperty subProperty = property.FindPropertyRelative(propertyName);
+
+                EditorGUI.BeginChangeCheck();
+
+                EditorGUI.PropertyField(fieldRect, subProperty, new GUIContent(propertyName));
+
+                if (EditorGUI.EndChangeCheck())
                 {
                     UpdateValue(propertyName, property);
                 }
             }
 
+            EditorGUIUtility.labelWidth = oldLabelWidth;
+
             EditorGUI.EndDisabledGroup();
             EditorGUI.EndProperty();
-        }
-
-        private bool AddSubProperty(Rect position, string name, bool offsetLabel, SerializedProperty property)
-        {
-            SerializedProperty subProperty = property.FindPropertyRelative(name);
-
-            float labelWidth = 13f;
-            float propertyWidth = position.width - labelWidth;
-
-            Rect labelPosition = new(position.x, position.y, labelWidth, position.height);
-            Rect propertyPosition = new(position.x + labelWidth, position.y, propertyWidth, position.height);
-
-            float spacing = 5;
-            propertyPosition.xMin += spacing;
-            labelPosition.xMax += spacing;
-
-            if (offsetLabel)
-                labelPosition.xMin += spacing;
-
-            EditorGUI.LabelField(labelPosition, name);
-
-            EditorGUI.BeginChangeCheck();
-            EditorGUI.PropertyField(propertyPosition, subProperty, GUIContent.none);
-            return EditorGUI.EndChangeCheck();
         }
 
         private void UpdateValue(string changedProperty, SerializedProperty property)
@@ -81,7 +80,14 @@ namespace Rodak.Hexagons.HexEditor
             switch (changedProperty)
             {
                 case Q:
-                    sProperty.intValue = -(q + r);
+                    if (TwoComponentAutoCorrect)
+                    {
+                        sProperty.intValue = -(q + r);
+                    }
+                    else
+                    {
+                        rProperty.intValue = -(q + s);
+                    }
                     break;
                 case R:
                     sProperty.intValue = -(q + r);
