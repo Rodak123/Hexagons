@@ -50,7 +50,7 @@ namespace Rodak.Hexagons.Demo.Map
             {
                 hexagonChunk.ForEach((Hexagon hexagon, int value) =>
                 {
-                    hexagon.DebugDraw(plane, chunkColors[colorIndex]);
+                    hexagon.DebugDraw(plane, chunkColors[colorIndex], 0);
                 });
                 colorIndex = (colorIndex + 1) % chunkColors.Length;
             });

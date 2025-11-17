@@ -13,6 +13,7 @@ namespace Rodak.Hexagons.HexMap
     public abstract class AHexagonMap<TTile, GChunk> where GChunk : HexagonChunk<TTile>
     {
         private readonly Dictionary<Hexagon, GChunk> chunks = new();
+
         /// <summary>
         /// The size parameter used to define the dimensions of each chunk.
         /// </summary>

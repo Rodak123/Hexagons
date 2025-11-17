@@ -18,12 +18,13 @@ namespace Rodak.Hexagons.HexMap
     }
 
     /// <summary>
-    /// Represents a fixed-size square group of hexagon tiles, typically used to partition a larger map.
+    /// Represents a fixed-size square group of hexagon tiles for a larger map.
     /// </summary>
     /// <typeparam name="TTile">The type of value stored in each hexagon tile.</typeparam>
     public class HexagonChunk<TTile>
     {
         private readonly Dictionary<Hexagon, TTile> values = new();
+
         /// <summary>
         /// Gets a list of the Hexagon coordinates for all tiles contained in this chunk.
         /// </summary>
@@ -110,10 +111,6 @@ namespace Rodak.Hexagons.HexMap
             return true;
         }
 
-        /// <summary>
-        /// Returns a string representation of the HexagonChunk, including its position and size.
-        /// </summary>
-        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return $"HexChunk[{Position}, {Size}]";
