@@ -58,6 +58,8 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <returns>MeshBuilder with prism walls</returns>
         public static MeshBuilder GetPrismWallsMesh(this Hexagon hexagon, float height = 1, IEnumerable<Hexagon> excludedDirections = null, PlacementPlane placementPlane = null)
         {
+            const float FullStep = 1f;
+
             MeshBuilder meshBuillder = new();
 
             for (int i = 0; i < 6; i++)
@@ -71,11 +73,17 @@ namespace Rodak.Hexagons.HexGeometry3D
                 float y = 0;
                 while (y < height)
                 {
+                    // C - D
+                    // | / |
+                    // A - B
+
+                    float step = Mathf.Min(FullStep, height - y);
+
                     Vector3 A = startA + placementPlane.Normal * y;
                     Vector3 B = startB + placementPlane.Normal * y;
 
-                    Vector3 C = A + placementPlane.Normal;
-                    Vector3 D = B + placementPlane.Normal;
+                    Vector3 C = A + placementPlane.Normal * step;
+                    Vector3 D = B + placementPlane.Normal * step;
 
                     Vector3[] vertices = new Vector3[]{
                         A, B,
@@ -85,8 +93,8 @@ namespace Rodak.Hexagons.HexGeometry3D
                     Vector2[] uv = new Vector2[]{
                         new(0, 0),
                         new(1, 0),
-                        new(0, 1),
-                        new(1, 1),
+                        new(0, step / FullStep),
+                        new(1, step / FullStep),
                     };
 
                     int[] triangles = new int[] {
@@ -95,7 +103,7 @@ namespace Rodak.Hexagons.HexGeometry3D
                     };
                     meshBuillder.Append(vertices, uv, triangles);
 
-                    y = Mathf.Min(y + 1, height);
+                    y += step;
                 }
             }
 
