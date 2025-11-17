@@ -40,7 +40,7 @@ namespace Rodak.Hexagons.Demo.GridMesh
                 MeshBuilder topCap = hexagon.GetMesh(flipped: false, height, placementPlane);
                 meshBuilder.Append(topCap, submeshIndex);
 
-                List<Hexagon> excludedDirections = new(); // no directions excluded
+                List<Hexagon> excludedDirections = new(); // all walls included
                 MeshBuilder walls = hexagon.GetPrismWallsMesh(height, excludedDirections, placementPlane);
                 meshBuilder.Append(walls, submeshIndex);
             });
