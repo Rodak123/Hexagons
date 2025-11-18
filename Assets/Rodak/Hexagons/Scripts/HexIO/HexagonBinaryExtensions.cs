@@ -1,11 +1,11 @@
 using System.IO;
 
-namespace Rodak.Hexagons.HexUtils
+namespace Rodak.Hexagons.HexIO
 {
     /// <summary>
     /// Utility class that allow Hexagon to be saved into binary.
     /// </summary>
-    public static class BinaryHexagon
+    public static class HexagonBinaryExtensions
     {
         /// <summary>
         /// Write the hexagon to the binary writer.

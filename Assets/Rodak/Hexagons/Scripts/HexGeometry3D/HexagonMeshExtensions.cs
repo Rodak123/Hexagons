@@ -10,7 +10,7 @@ namespace Rodak.Hexagons.HexGeometry3D
     /**
      * Provides static methods for generating 3D meshes based on Hexagon geometry.
      */
-    public static class HexagonMesh
+    public static class HexagonMeshExtensions
     {
         /// <summary>
         /// Creates a new MeshBuilder with a single hexagon face.
@@ -32,7 +32,7 @@ namespace Rodak.Hexagons.HexGeometry3D
             Vector2[] uv = new Vector2[7];
             for (int i = 0; i < 6; i++)
             {
-                Vector2 cornerDirection = HexagonGeometry.GetCornerDirection(i);
+                Vector2 cornerDirection = HexagonGeometryExtensions.GetCornerDirection(i);
                 uv[i] = (cornerDirection + Vector2.one) / 2f;
             }
             uv[6] = Vector2.one / 2f;
@@ -64,7 +64,7 @@ namespace Rodak.Hexagons.HexGeometry3D
 
             for (int i = 0; i < 6; i++)
             {
-                if (excludedDirections?.Contains(HexagonGeometry.OrderedDirections[i]) ?? false)
+                if (excludedDirections?.Contains(HexagonGeometryExtensions.OrderedDirections[i]) ?? false)
                     continue;
 
                 Vector3 startA = hexagon.GetCorner3D(i, placementPlane);

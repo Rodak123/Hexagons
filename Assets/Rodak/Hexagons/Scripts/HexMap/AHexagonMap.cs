@@ -117,7 +117,7 @@ namespace Rodak.Hexagons.HexMap
         /// <returns>The Hexagon coordinate of the containing chunk.</returns>
         public Hexagon GetChunkPosition(Hexagon hexagonPosition)
         {
-            int sizeAcross = HexagonChunk.GetSizeAcross(ChunkSize);
+            int sizeAcross = HexagonChunkExtensions.GetSizeAcross(ChunkSize);
 
             Hexagon nearestChunkPosition = hexagonPosition / sizeAcross;
 

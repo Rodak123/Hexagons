@@ -7,7 +7,7 @@ namespace Rodak.Hexagons.HexDebug
     /**
      * Provides utility methods for drawing visual representations of HexagonGrid contents in 3D for debugging.
      */
-    public static class HexagonGridDebug
+    public static class HexagonGridDebugExtensions
     {
 
         /// <summary>

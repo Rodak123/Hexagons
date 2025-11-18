@@ -7,7 +7,7 @@ namespace Rodak.Hexagons.HexMap
     /**
      * Provides static utility functions for calculating properties of hexagon chunks.
      */
-    public static class HexagonChunk
+    public static class HexagonChunkExtensions
     {
         /// <summary>
         /// Calculates the total number of hexagons across the width or height of the chunk.
@@ -52,7 +52,7 @@ namespace Rodak.Hexagons.HexMap
             Size = size;
             Position = position;
 
-            int sizeAcross = HexagonChunk.GetSizeAcross(size);
+            int sizeAcross = HexagonChunkExtensions.GetSizeAcross(size);
             Hexagon chunkCenter = position * sizeAcross;
             for (int i = -Size; i <= Size; i++)
             {

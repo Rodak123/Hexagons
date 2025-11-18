@@ -6,7 +6,7 @@ namespace Rodak.Hexagons.HexGeometry3D
     /// <summary>
     /// Extends the hexagon class with many 3D geomtery related functions.
     /// </summary>
-    public static class HexagonGeometry3D
+    public static class HexagonGeometry3DExtensions
     {
         /// <summary>
         /// Default PlacementPlane used when none specified.
@@ -59,7 +59,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         public static Hexagon GetHexagonAt(Vector3 point, PlacementPlane placementPlane = null)
         {
             Vector2 planePosition = GetPlacementPlane(placementPlane).Get2DPosition(point);
-            return HexagonGeometry.GetHexagonAt(planePosition.x, planePosition.y);
+            return HexagonGeometryExtensions.GetHexagonAt(planePosition.x, planePosition.y);
         }
     }
 }

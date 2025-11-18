@@ -6,7 +6,7 @@ namespace Rodak.Hexagons.HexGeometry
     /// <summary>
     /// Extends the hexagon class with many 2D geomtery related functions.
     /// </summary>
-    public static class HexagonGeometry
+    public static class HexagonGeometryExtensions
     {
         /// <summary>
         /// Unit vector hexagons ordered clockwise.

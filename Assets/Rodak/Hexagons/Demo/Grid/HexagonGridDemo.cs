@@ -15,7 +15,7 @@ namespace Rodak.Hexagons.Demo.Grid
             PlacementPlane plane = new(planeUp);
 
             HexagonGrid<int> hexagonGrid = new(size, CreateHexagonGridValue);
-            HexagonGridDebug.DebugDraw(hexagonGrid, plane, Color.red);
+            hexagonGrid.DebugDraw(plane, Color.red);
         }
 
         private int CreateHexagonGridValue(Hexagon position)

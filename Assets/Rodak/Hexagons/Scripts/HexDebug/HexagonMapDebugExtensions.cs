@@ -7,7 +7,7 @@ namespace Rodak.Hexagons.HexDebug
     /**
      * Provides utility methods for drawing visual representations of HexagonMap contents in 3D for debugging.
      */
-    public static class HexagonMapDebug
+    public static class HexagonMapDebugExtensions
     {
         /// <summary>
         /// Draws an outline of each hexagon in the map. 
