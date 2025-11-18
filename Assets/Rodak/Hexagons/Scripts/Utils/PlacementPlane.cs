@@ -53,11 +53,11 @@ namespace Rodak.Hexagons.Utils
         {
             Plane = plane;
 
-            Vector3 arbitraryAxis = (Mathf.Abs(Vector3.Dot(Plane.normal, Vector3.up)) > 0.99f)
-                ? Vector3.right : Vector3.up;
+            bool isVerticalNormal = Mathf.Abs(Vector3.Dot(Plane.normal, Vector3.up)) > 0.99f;
+
+            Vector3 arbitraryAxis = isVerticalNormal ? Vector3.forward : Vector3.up;
 
             planeRight = Vector3.Cross(Plane.normal, arbitraryAxis).normalized;
-
             planeForward = Vector3.Cross(planeRight, Plane.normal).normalized;
         }
 
