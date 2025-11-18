@@ -4,9 +4,19 @@ A bundle of scripts that help with doing stuff with hexagons
 
 Author: [Radek Titěra](https://github.com/Rodak123)
 
+## Todo
+
+- Neighbours
+- Diagonals
+- Ring
+- Movement range
+- Line drawing
+- Reflection
+
 ## Contents
 
 - [Just Hexagons](#just-hexagons)
+  - [Todo](#todo)
   - [Contents](#contents)
   - [Hexagon](#hexagon)
   - [Editor](#editor)

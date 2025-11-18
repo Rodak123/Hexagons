@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Rodak.Hexagons.HexGeometry3D;
 using Rodak.Hexagons.HexGrid;
 using Rodak.Hexagons.HexUtils;
+using Rodak.Hexagons.Utils;
 using UnityEngine;
 
 namespace Rodak.Hexagons.Demo.GridMesh

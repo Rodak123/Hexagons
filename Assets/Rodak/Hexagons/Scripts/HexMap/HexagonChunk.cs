@@ -12,7 +12,6 @@ namespace Rodak.Hexagons.HexMap
         /// <summary>
         /// Calculates the total number of hexagons across the width or height of the chunk.
         /// </summary>
-        /// <param name="chunkSize">The size parameter of the chunk.</param>
         /// <returns>The total size (width/height) of the chunk's bounding box.</returns>
         public static int GetSizeAcross(int chunkSize) => chunkSize * 2 + 1;
     }
@@ -43,9 +42,6 @@ namespace Rodak.Hexagons.HexMap
         /// <summary>
         /// Initializes a new instance of the HexagonChunk class.
         /// </summary>
-        /// <param name="position">The Hexagon coordinate of the chunk's center.</param>
-        /// <param name="size">The size parameter for the chunk's dimensions.</param>
-        /// <param name="createValue">A function used to generate the value for each hexagon tile.</param>
         public HexagonChunk(Hexagon position, int size, Func<Hexagon, Hexagon, TTile> createValue)
         {
             if (size < 0) throw new ArgumentException($"{nameof(size)} of a {nameof(HexagonChunk<TTile>)} must be positive");
@@ -67,7 +63,6 @@ namespace Rodak.Hexagons.HexMap
         /// <summary>
         /// Executes an action for every hexagon tile and its value in the chunk.
         /// </summary>
-        /// <param name="action">The action to perform on each Hexagon and its value.</param>
         public void ForEach(Action<Hexagon, TTile> action)
         {
             Hexagons.ForEach((Hexagon position) =>
@@ -79,7 +74,6 @@ namespace Rodak.Hexagons.HexMap
         /// <summary>
         /// Checks if the chunk contains the tile at the given Hexagon coordinate.
         /// </summary>
-        /// <param name="position">The Hexagon coordinate to check.</param>
         /// <returns>True if the hexagon is in the chunk, false otherwise.</returns>
         public bool ContainsHexagon(Hexagon position)
         {
@@ -89,8 +83,6 @@ namespace Rodak.Hexagons.HexMap
         /// <summary>
         /// Attempts to retrieve the value of a hexagon tile in the chunk.
         /// </summary>
-        /// <param name="position">The Hexagon coordinate of the tile.</param>
-        /// <param name="value">Output parameter: the tile's value if found, otherwise default.</param>
         /// <returns>True if the value was successfully retrieved, false otherwise.</returns>
         public bool TryGetValue(Hexagon position, out TTile value)
         {
@@ -100,8 +92,6 @@ namespace Rodak.Hexagons.HexMap
         /// <summary>
         /// Sets the value of a hexagon tile in the chunk.
         /// </summary>
-        /// <param name="position">The Hexagon coordinate of the tile.</param>
-        /// <param name="value">The new value to set.</param>
         /// <returns>True if the value was successfully set, false if the hexagon is not in the chunk.</returns>
         public bool SetValue(Hexagon position, TTile value)
         {

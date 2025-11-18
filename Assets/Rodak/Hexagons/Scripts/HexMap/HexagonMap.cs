@@ -14,8 +14,6 @@ namespace Rodak.Hexagons.HexMap
         /// <summary>
         /// Initializes a new instance of the HexagonMap class.
         /// </summary>
-        /// <param name="chunkSize">The size parameter for the chunks used in the map.</param>
-        /// <param name="createValue">A function used to generate the value for each hexagon tile.</param>
         public HexagonMap(
             int chunkSize,
             Func<Hexagon, Hexagon, T> createValue
@@ -27,7 +25,6 @@ namespace Rodak.Hexagons.HexMap
         /// <summary>
         /// Creates a new HexagonChunk instance at a specified position using the stored creation function.
         /// </summary>
-        /// <param name="chunkPosition">The Hexagon coordinate of the chunk's center.</param>
         /// <returns>A new HexagonChunk object.</returns>
         protected override HexagonChunk<T> CreateChunk(Hexagon chunkPosition)
         {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Rodak.Hexagons.HexGeometry3D
+namespace Rodak.Hexagons.Utils
 {
     /// <summary>
     /// Used to place a 2D hexagon to a 3D world. It defines a plane and provides methods to convert between 2D coordinates on the plane and 3D world coordinates.

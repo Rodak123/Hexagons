@@ -9,33 +9,14 @@ namespace Rodak.Hexagons
     public record Hexagon
     {
         /// <summary>
-        /// The Hexagon at the origin (0, 0, 0).
+        /// The origin hexagon (0, 0, 0).
         /// </summary>
         public static Hexagon Zero => new(0, 0, 0);
-
-        /// <summary>
-        /// Represents the unit vector along the Q-axis (or -S-R).
-        /// </summary>
-        public static Hexagon QAxis => new(-1, 1, 0);
-        /// <summary>
-        /// Represents the unit vector along the R-axis (or -Q-S).
-        /// </summary>
-        public static Hexagon RAxis => new(-1, 0, 1);
-        /// <summary>
-        /// Represents the unit vector along the S-axis (or -Q-R).
-        /// </summary>
-        public static Hexagon SAxis => new(0, -1, 1);
 
         /// <summary>
         /// Returns the closest hexagon based on rounded and precise values.
         /// This method corrects rounding errors to ensure Q + R + S = 0.
         /// </summary>
-        /// <param name="q">Rounded Q</param>
-        /// <param name="r">Rounded R</param>
-        /// <param name="s">Rounded S</param>
-        /// <param name="qFloat">Precise Q</param>
-        /// <param name="rFloat">Precise R</param>
-        /// <param name="sFloat">Precise S</param>
         /// <returns>The nearest valid Hexagon.</returns>
         public static Hexagon GetNearestHexagon(int q, int r, int s, float qFloat, float rFloat, float sFloat)
         {
@@ -57,9 +38,6 @@ namespace Rodak.Hexagons
         /// Returns the rounded hexagon based on precise values.
         /// The components are rounded first, then corrected to ensure Q + R + S = 0.
         /// </summary>
-        /// <param name="qFloat">Precise Q</param>
-        /// <param name="rFloat">Precise R</param>
-        /// <param name="sFloat">Precise S</param>
         /// <returns>Rounded hexagon</returns>
         public static Hexagon GetNearestHexagonRound(float qFloat, float rFloat, float sFloat)
         {
@@ -72,8 +50,6 @@ namespace Rodak.Hexagons
         /// <summary>
         /// Returns the rounded hexagon based on precise Q and R values, calculating S.
         /// </summary>
-        /// <param name="qFloat">Precise Q</param>
-        /// <param name="rFloat">Precise R</param>
         /// <returns>Rounded hexagon</returns>
         public static Hexagon GetNearestHexagonRound(float qFloat, float rFloat) => GetNearestHexagonRound(qFloat, rFloat, -(qFloat + rFloat));
 
@@ -82,9 +58,6 @@ namespace Rodak.Hexagons
         /// Returns the floored hexagon based on precise values.
         /// The components are floored first, then corrected to ensure Q + R + S = 0.
         /// </summary>
-        /// <param name="qFloat">Precise Q</param>
-        /// <param name="rFloat">Precise R</param>
-        /// <param name="sFloat">Precise S</param>
         /// <returns>Floored hexagon</returns>
         public static Hexagon GetNearestHexagonFloor(float qFloat, float rFloat, float sFloat)
         {
@@ -97,16 +70,12 @@ namespace Rodak.Hexagons
         /// <summary>
         /// Returns the floored hexagon based on precise Q and R values, calculating S.
         /// </summary>
-        /// <param name="qFloat">Precise Q</param>
-        /// <param name="rFloat">Precise R</param>
         /// <returns>Floored hexagon</returns>
         public static Hexagon GetNearestHexagonFloor(float qFloat, float rFloat) => GetNearestHexagonFloor(qFloat, rFloat, -(qFloat + rFloat));
 
         /// <summary>
         /// Calculates the distance between two hexagons (Manhattan distance divided by 2).
         /// </summary>
-        /// <param name="a">Hexagon A</param>
-        /// <param name="b">Hexagon B</param>
         /// <returns>Distance</returns>
         public static float Distance(Hexagon a, Hexagon b)
         {
@@ -155,9 +124,6 @@ namespace Rodak.Hexagons
         /// <summary>
         /// New hexagon, throws an <see cref="ArgumentException"/> when Q + R + S != 0. 
         /// </summary>
-        /// <param name="q">Q axis position</param>
-        /// <param name="r">R axis position</param>
-        /// <param name="s">S axis position</param>
         /// <exception cref="ArgumentException">Q + R + S != 0</exception>
         public Hexagon(int q, int r, int s)
         {
@@ -170,8 +136,6 @@ namespace Rodak.Hexagons
         /// <summary>
         /// New hexagon with S = -(Q + R).
         /// </summary>
-        /// <param name="q">Q axis position</param>
-        /// <param name="r">R axis position</param>
         public Hexagon(int q, int r) : this(q, r, -(q + r)) { }
 
         /// <summary>
@@ -183,10 +147,6 @@ namespace Rodak.Hexagons
             return HashCode.Combine(Q, R, S);
         }
 
-        /// <summary>
-        /// Returns a string representation of the Hexagon in the format "Hex[Q, R, S]".
-        /// </summary>
-        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return $"Hex[{Q}, {R}, {S}]";

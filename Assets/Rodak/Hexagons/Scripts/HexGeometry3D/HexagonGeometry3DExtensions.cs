@@ -1,4 +1,5 @@
 using Rodak.Hexagons.HexGeometry;
+using Rodak.Hexagons.Utils;
 using UnityEngine;
 
 namespace Rodak.Hexagons.HexGeometry3D
@@ -18,8 +19,6 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <summary>
         /// Calculates a hexagon's center on a 3D plane.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="placementPlane">3D Plane</param>
         /// <returns>Center position</returns>
         public static Vector3 GetCenter3D(this Hexagon hexagon, PlacementPlane placementPlane = null)
         {
@@ -29,9 +28,6 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <summary>
         /// Calculates a hexagon's corner on a 3D plane.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="index">Vertex index</param>
-        /// <param name="placementPlane">3D plane</param>
         /// <returns>Corner position</returns>
         public static Vector3 GetCorner3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
         {
@@ -41,9 +37,6 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <summary>
         /// Calculates a hexagon's side on a 3D plane.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="index">Vertex index</param>
-        /// <param name="placementPlane">3D plane</param>
         /// <returns>Side center position</returns>
         public static Vector3 GetSide3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
         {
@@ -53,8 +46,6 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <summary>
         /// Calculates a hexagon from a 3D point.
         /// </summary>
-        /// <param name="point">3D point</param>
-        /// <param name="placementPlane">3D plane</param>
         /// <returns>Hexagon containing this point</returns>
         public static Hexagon GetHexagonAt(Vector3 point, PlacementPlane placementPlane = null)
         {

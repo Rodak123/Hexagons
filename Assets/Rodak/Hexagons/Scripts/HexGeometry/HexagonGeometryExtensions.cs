@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
 namespace Rodak.Hexagons.HexGeometry
 {
@@ -8,31 +9,34 @@ namespace Rodak.Hexagons.HexGeometry
     /// </summary>
     public static class HexagonGeometryExtensions
     {
-        /// <summary>
-        /// Unit vector hexagons ordered clockwise.
-        /// </summary>
-        public static readonly Hexagon[] OrderedDirections = new Hexagon[] { -Hexagon.RAxis, -Hexagon.SAxis, Hexagon.QAxis, Hexagon.RAxis, Hexagon.SAxis, -Hexagon.QAxis };
+        public static readonly ReadOnlyArray<Hexagon> DirectionsClockwise = new Hexagon[] {
+            new(1, 0, -1),
+            new(0, 1, -1),
+            new(-1, 1, 0),
+            new(-1, 0, 1),
+            new(0, -1, 1),
+            new(1, -1, 0)
+        };
 
-        private static readonly float SQRT_OF_THREE = (float)Math.Sqrt(3);
+        private static readonly float SqrtOfThree = (float)Math.Sqrt(3);
 
         /// <summary>
         /// The side width of a hexagon.
         /// </summary>
-        public static readonly float SIZE_SIDE_TO_SIDE = SQRT_OF_THREE;
+        public static readonly float SizeSideToSide = SqrtOfThree;
         /// <summary>
         /// The vertex width of a hexagon.
         /// </summary>
-        public static readonly float SIZE_CORNER_TO_CORNER = 2;
+        public static readonly float SizeCornerToCorner = 2;
 
         /// <summary>
         /// Calculates a hexagon's center on a 2D plane.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
         /// <returns>Center position</returns>
         public static Vector2 GetCenter(this Hexagon hexagon)
         {
             return new Vector2(
-                SQRT_OF_THREE * hexagon.Q + SQRT_OF_THREE / 2f * hexagon.R,
+                SqrtOfThree * hexagon.Q + SqrtOfThree / 2f * hexagon.R,
                 3f / 2f * hexagon.R
             );
         }
@@ -40,12 +44,10 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Calculates a hexagon from a 2D point.
         /// </summary>
-        /// <param name="x">X position</param>
-        /// <param name="y">Y position</param>
         /// <returns>Hexagon containing this point</returns>
         public static Hexagon GetHexagonAt(float x, float y)
         {
-            float qFloat = SQRT_OF_THREE / 3f * x - 1f / 3f * y;
+            float qFloat = SqrtOfThree / 3f * x - 1f / 3f * y;
             float rFloat = 2f / 3f * y;
             return Hexagon.GetNearestHexagonRound(qFloat, rFloat);
         }
@@ -53,7 +55,6 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Contains the vertex index from 0 to 6. 
         /// </summary>
-        /// <param name="index">Index</param>
         /// <returns>Vertex index</returns>
         public static int GetAbsoluteIndex(int index)
         {
@@ -63,9 +64,6 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Wheter the distance between these directions is of the offset.
         /// </summary>
-        /// <param name="indexA">Index A</param>
-        /// <param name="indexB">Index B</param>
-        /// <param name="offset">Offset</param>
         /// <returns>True if indexA + offset = indexB</returns>
         public static bool AreDirectionsOffseted(int indexA, int indexB, int offset)
         {
@@ -77,7 +75,6 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Calculates the angle of a hexagon corner.
         /// </summary>
-        /// <param name="index">Vertex index</param>
         /// <returns>Angle in radians</returns>
         public static float GetCornerAngle(int index)
         {
@@ -90,7 +87,6 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Calculates the direction of the corner form the center.
         /// </summary>
-        /// <param name="index">Vertex index</param>
         /// <returns>Angle in radians</returns>
         public static Vector2 GetCornerDirection(int index)
         {
@@ -105,8 +101,6 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Calculates a hexagon's corner on a 2D plane.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="index">Vertex index</param>
         /// <returns>Corner position</returns>
         public static Vector2 GetCorner(this Hexagon hexagon, int index)
         {
@@ -118,7 +112,6 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Calculates a hexagon's side direction on a 2D plane.
         /// </summary>
-        /// <param name="index">Vertex index</param>
         /// <returns>Direction vector</returns>
         public static Vector2 GetSideDirection(int index)
         {
@@ -132,22 +125,19 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Calculates a hexagon's side on a 2D plane.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="index">Vertex index</param>
         /// <returns>Side center position</returns>
         public static Vector2 GetSide(this Hexagon hexagon, int index)
         {
             index = GetAbsoluteIndex(index);
 
             Vector2 center = hexagon.GetCenter();
-            Hexagon direction = OrderedDirections[index];
+            Hexagon direction = DirectionsClockwise[index];
             return center + direction.GetCenter() / 2f;
         }
 
         /// <summary>
         /// Calculates the direction angle of the hexagon from the (0, 0) center.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
         /// <returns>Angle in degrees</returns>
         public static float GetDirectionAngle(this Hexagon hexagon)
         {
@@ -158,15 +148,12 @@ namespace Rodak.Hexagons.HexGeometry
         /// <summary>
         /// Calculates a clockwise rotated hexagon.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
         /// <returns>Clockwise rotated hexagon</returns>
         public static Hexagon RotateClockwise(this Hexagon hexagon) => new(-hexagon.R, -hexagon.S, -hexagon.Q);
 
         /// <summary>
         /// Calculates a clockwise rotated hexagon N times.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="rotations">Number of rotation</param>
         /// <returns>N times clockwise rotated hexagon</returns>
         public static Hexagon RotateClockwise(this Hexagon hexagon, int rotations)
         {

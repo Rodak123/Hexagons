@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Rodak.Hexagons.Utils;
 using Rodak.Hexagons.HexUtils;
 using Rodak.Hexagons.HexGeometry;
 
@@ -15,10 +16,6 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <summary>
         /// Creates a new MeshBuilder with a single hexagon face.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="flipped">Wheter to flip the normals</param>
-        /// <param name="yOffset">Normal offset</param>
-        /// <param name="placementPlane">3D plane</param>
         /// <returns>MeshBuilder with a single hexagon face</returns>
         public static MeshBuilder GetMesh(this Hexagon hexagon, bool flipped, float yOffset = 0, PlacementPlane placementPlane = null)
         {
@@ -51,10 +48,6 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <summary>
         /// Creates a new MeshBuilder with prism walls, excluded directions are skipped.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="height">Height of the prism</param>
-        /// <param name="excludedDirections">Not generated prism directions</param>
-        /// <param name="placementPlane">3D plane</param>
         /// <returns>MeshBuilder with prism walls</returns>
         public static MeshBuilder GetPrismWallsMesh(this Hexagon hexagon, float height = 1, IEnumerable<Hexagon> excludedDirections = null, PlacementPlane placementPlane = null)
         {
@@ -64,7 +57,7 @@ namespace Rodak.Hexagons.HexGeometry3D
 
             for (int i = 0; i < 6; i++)
             {
-                if (excludedDirections?.Contains(HexagonGeometryExtensions.OrderedDirections[i]) ?? false)
+                if (excludedDirections?.Contains(HexagonGeometryExtensions.DirectionsClockwise[i]) ?? false)
                     continue;
 
                 Vector3 startA = hexagon.GetCorner3D(i, placementPlane);

@@ -1,7 +1,7 @@
 using Rodak.Hexagons.HexDebug;
-using Rodak.Hexagons.HexGeometry3D;
 using Rodak.Hexagons.HexMap;
 using UnityEngine;
+using Rodak.Hexagons.Utils;
 
 namespace Rodak.Hexagons.Demo.Map
 {

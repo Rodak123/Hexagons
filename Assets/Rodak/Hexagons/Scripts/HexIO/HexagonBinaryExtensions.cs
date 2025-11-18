@@ -10,8 +10,6 @@ namespace Rodak.Hexagons.HexIO
         /// <summary>
         /// Write the hexagon to the binary writer.
         /// </summary>
-        /// <param name="bw">Binary writer</param>
-        /// <param name="hexagon">The hexagon</param>
         public static void Write(this BinaryWriter bw, Hexagon hexagon)
         {
             bw.Write(hexagon.Q);
@@ -21,7 +19,6 @@ namespace Rodak.Hexagons.HexIO
         /// <summary>
         /// Read the hexagon from the binary reader.
         /// </summary>
-        /// <param name="br">Binary reader</param>
         /// <returns>The read Hexagon object.</returns>
         public static Hexagon ReadHexagon(this BinaryReader br)
         {

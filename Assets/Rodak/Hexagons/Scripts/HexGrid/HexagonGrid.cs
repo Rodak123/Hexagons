@@ -35,9 +35,6 @@ namespace Rodak.Hexagons.HexGrid
         /// Initializes a new instance of the <see cref="HexagonGrid{T}"/> class.
         /// The grid is generated as a rhombus of a given size centered at (0, 0).
         /// </summary>
-        /// <param name="size">The radial size of the grid (maximum coordinate magnitude). Must be non-negative.</param>
-        /// <param name="createValue">A factory function that is called for each new <see cref="Hexagon"/>
-        /// position to generate and assign its initial value.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="size"/> is negative.</exception>
         public HexagonGrid(int size, Func<Hexagon, T> createValue)
         {
@@ -60,7 +57,6 @@ namespace Rodak.Hexagons.HexGrid
         /// <summary>
         /// Executes an action for every hexagon and its associated value in the grid.
         /// </summary>
-        /// <param name="action">The action to perform. It takes the <see cref="Hexagon"/> position and its value (T).</param>
         public void ForEach(Action<Hexagon, T> action)
         {
             Hexagons.ForEach((Hexagon position) =>
@@ -72,7 +68,6 @@ namespace Rodak.Hexagons.HexGrid
         /// <summary>
         /// Checks if a specific <see cref="Hexagon"/> position is contained within the grid bounds.
         /// </summary>
-        /// <param name="position">The <see cref="Hexagon"/> coordinate to check.</param>
         /// <returns><c>true</c> if the position is in the grid; otherwise, <c>false</c>.</returns>
         public bool ContainsHexagon(Hexagon position)
         {
@@ -82,9 +77,6 @@ namespace Rodak.Hexagons.HexGrid
         /// <summary>
         /// Attempts to retrieve the value associated with a specific <see cref="Hexagon"/> position.
         /// </summary>
-        /// <param name="position">The <see cref="Hexagon"/> coordinate.</param>
-        /// <param name="value">When this method returns, contains the value associated with the specified key, if the key is found;
-        /// otherwise, the default value for the type of the value parameter.</param>
         /// <returns><c>true</c> if the grid contains the position; otherwise, <c>false</c>.</returns>
         public bool TryGetValue(Hexagon position, out T value)
         {
@@ -94,8 +86,6 @@ namespace Rodak.Hexagons.HexGrid
         /// <summary>
         /// Attempts to set a new value for a specific <see cref="Hexagon"/> position.
         /// </summary>
-        /// <param name="position">The <see cref="Hexagon"/> coordinate to update.</param>
-        /// <param name="value">The new value to assign.</param>
         /// <returns><c>true</c> if the position exists and was updated; otherwise, <c>false</c>.</returns>
         public bool SetValue(Hexagon position, T value)
         {

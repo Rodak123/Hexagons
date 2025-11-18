@@ -1,4 +1,5 @@
 using Rodak.Hexagons.HexGeometry3D;
+using Rodak.Hexagons.Utils;
 using UnityEngine;
 
 namespace Rodak.Hexagons.HexDebug
@@ -11,13 +12,7 @@ namespace Rodak.Hexagons.HexDebug
         /// <summary>
         /// Draws an outline of the hexagon.
         /// </summary>
-        /// <param name="hexagon">Hexagon</param>
-        /// <param name="placementPlane">3D Plane</param>
-        /// <param name="color">Outline color</param>
-        /// <param name="duration">Outline duration</param>
-        /// <param name="drawTriangles">If true, individual edges are shown</param>
-        /// <param name="depthTest">If true, renderer checks depth</param>
-        public static void DebugDraw(this Hexagon hexagon, PlacementPlane placementPlane, Color color, float duration = 5.0f, bool drawTriangles = false, bool depthTest = true)
+        public static void DebugDraw(this Hexagon hexagon, PlacementPlane placementPlane, Color color, float duration = 0.0f, bool drawTriangles = false, bool depthTest = true)
         {
             void DrawLine(Vector3 start, Vector3 end) => Debug.DrawLine(start, end, color, duration, depthTest);
 

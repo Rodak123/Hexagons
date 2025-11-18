@@ -38,9 +38,6 @@ namespace Rodak.Hexagons.HexEditor
         /// <summary>
         /// Initializes a new instance of the EditableHexagon class with specified coordinates.
         /// </summary>
-        /// <param name="q">Q axis position</param>
-        /// <param name="r">R axis position</param>
-        /// <param name="s">S axis position</param>
         public EditableHexagon(int q, int r, int s)
         {
             Q = q;

@@ -1,5 +1,5 @@
 using System;
-using Rodak.Hexagons.HexGeometry3D;
+using Rodak.Hexagons.Utils;
 
 namespace Rodak.Hexagons.Demo
 {

@@ -144,5 +144,12 @@ namespace Rodak.Hexagons.HexUtils
 
             return mesh;
         }
+
+        public override string ToString()
+        {
+            int totalTriangles = submeshTriangles.Sum((val) => val.Count);
+            return $"{nameof(MeshBuilder)}[V: {Vertices.Count}, UV: {UV.Count}, subT: {submeshTriangles.Count}, T: {totalTriangles}]";
+        }
+
     }
 }
