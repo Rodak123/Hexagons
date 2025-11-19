@@ -1,7 +1,7 @@
 using Rodak.Hexagons.HexDebug;
 using Rodak.Hexagons.HexGrid;
 using UnityEngine;
-using Rodak.Hexagons.Utils;
+using Rodak.Hexagons.HexUtils;
 
 namespace Rodak.Hexagons.Demo.Grid
 {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Rodak.Hexagons.Utils
+namespace Rodak.Hexagons.HexUtils
 {
     /// <summary>
     /// Used to place a 2D hexagon to a 3D world.

@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Rodak.Hexagons.HexGeometry3D;
 using Rodak.Hexagons.HexGrid;
 using Rodak.Hexagons.HexUtils;
-using Rodak.Hexagons.Utils;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Rodak.Hexagons.Demo.GridMesh
 {
@@ -11,12 +12,14 @@ namespace Rodak.Hexagons.Demo.GridMesh
     /// This demo uses the HexaonGrid to generate a map of varying heights.
     /// It stores the height value in the grid and uses that value to determine the height and color.
     /// </summary>
-    public class GridMeshDemo : MonoBehaviour
+    public class HexagonGridMeshDemo : MonoBehaviour
     {
         [SerializeField, Min(1)] private int size = 4;
+
+        [Header("World Generation")]
         [SerializeField] private float stepHeight = 1;
 
-        [Space]
+        [Header("Mesh Components")]
         [SerializeField] private MeshFilter meshFilter;
         [SerializeField] private MeshRenderer meshRenderer;
 
@@ -27,6 +30,8 @@ namespace Rodak.Hexagons.Demo.GridMesh
         private void Awake()
         {
             colorCount = meshRenderer.materials.Length;
+            if (colorCount == 0)
+                throw new ArgumentException($"{nameof(colorCount)} should be above 0");
 
             hexagonGrid = new(size, (position) => Random.Range(1, colorCount + 1));
             meshFilter.mesh = GenerateMesh();

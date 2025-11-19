@@ -1,5 +1,5 @@
 using Rodak.Hexagons.HexGeometry;
-using Rodak.Hexagons.Utils;
+using Rodak.Hexagons.HexUtils;
 using UnityEngine;
 
 namespace Rodak.Hexagons.HexGeometry3D

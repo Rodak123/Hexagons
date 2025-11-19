@@ -1,7 +1,6 @@
 using Rodak.Hexagons.HexGeometry3D;
 using Rodak.Hexagons.HexUtils;
 using UnityEngine;
-using Rodak.Hexagons.Utils;
 
 namespace Rodak.Hexagons.Demo.SingleMesh
 {

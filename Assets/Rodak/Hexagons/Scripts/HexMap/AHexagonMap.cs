@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Rodak.Hexagons.HexNavigation;
+using Rodak.Hexagons.HexGeometry;
 
 namespace Rodak.Hexagons.HexMap
 {
@@ -126,8 +126,10 @@ namespace Rodak.Hexagons.HexMap
 
             Hexagon nearestChunkPosition = hexagonPosition / sizeAcross;
 
-            List<Hexagon> possibleChunkOffsets = new() { Hexagon.Zero };
-            possibleChunkOffsets.AddRange(HexagonRelationExtensions.Neighbours);
+            List<Hexagon> possibleChunkOffsets = new() {
+                Hexagon.Zero,
+            };
+            possibleChunkOffsets.AddRange(HexagonGeometryExtensions.DirectionsClockwise);
 
             foreach (Hexagon chunkOffset in possibleChunkOffsets)
             {

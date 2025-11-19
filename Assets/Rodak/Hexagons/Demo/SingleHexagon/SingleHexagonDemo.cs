@@ -1,8 +1,7 @@
 using Rodak.Hexagons.HexDebug;
 using Rodak.Hexagons.HexEditor;
 using Rodak.Hexagons.HexGeometry3D;
-using Rodak.Hexagons.Utils;
-using Unity.Collections;
+using Rodak.Hexagons.HexUtils;
 using UnityEngine;
 
 namespace Rodak.Hexagons.Demo.SingleHexagon
@@ -14,7 +13,7 @@ namespace Rodak.Hexagons.Demo.SingleHexagon
     public class SingleHexagonDemo : MonoBehaviour
     {
         [SerializeField] private EditableHexagon editableHexagon = Hexagon.Zero;
-        [SerializeField, ReadOnly] private EditableHexagon readonlyHexagon = new Hexagon(12, 7);
+        [SerializeField, HexReadOnly] private EditableHexagon readonlyHexagon = new Hexagon(12, 7);
 
         [Header("TwoComponent auto correct")]
         [SerializeField, HexAutoCorrect(HexAutoCorrectMode.TwoComponent)] private EditableHexagon twoCompoenentHexagon;

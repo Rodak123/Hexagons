@@ -1,12 +1,12 @@
 using Rodak.Hexagons.HexDebug;
 using Rodak.Hexagons.HexMap;
 using UnityEngine;
-using Rodak.Hexagons.Utils;
+using Rodak.Hexagons.HexUtils;
 
 namespace Rodak.Hexagons.Demo.Map
 {
     /// <summary>
-    /// This demo shows how you can generate a map. And how the chunks are placed.
+    /// This demo shows how you can generate a map.
     /// </summary>
     public class HexagonMapDemo : MonoBehaviour
     {
@@ -59,9 +59,9 @@ namespace Rodak.Hexagons.Demo.Map
             });
         }
 
-        private int CreateHexagonMapValue(Hexagon hexagonOosition, Hexagon chunkPosition)
+        private int CreateHexagonMapValue(Hexagon hexagonPosition, Hexagon chunkPosition)
         {
-            return hexagonOosition.Q + hexagonOosition.R * initialSize;
+            return hexagonPosition.Q + hexagonPosition.R * initialSize;
         }
     }
 }

@@ -3,7 +3,7 @@ using Rodak.Hexagons.HexDebug;
 using Rodak.Hexagons.HexEditor;
 using Rodak.Hexagons.HexNavigation;
 using UnityEngine;
-using Rodak.Hexagons.Utils;
+using Rodak.Hexagons.HexUtils;
 
 namespace Rodak.Hexagons.Demo.Relations
 {

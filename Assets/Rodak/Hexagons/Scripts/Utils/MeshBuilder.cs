@@ -43,9 +43,12 @@ namespace Rodak.Hexagons.HexUtils
         /// <summary>
         /// Ensures that the requested submesh index exists.
         /// </summary>
-        private void EnsureSubmesh(int index)
+        public void EnsureSubmesh(int submeshIndex)
         {
-            while (submeshTriangles.Count <= index)
+            if (submeshIndex < 0)
+                throw new ArgumentException($"{nameof(submeshIndex)} must be above {0}");
+
+            while (submeshTriangles.Count <= submeshIndex)
                 submeshTriangles.Add(new List<int>());
         }
 
@@ -83,7 +86,7 @@ namespace Rodak.Hexagons.HexUtils
             Vertices.AddRange(vertices);
             UV.AddRange(uv);
 
-            var triList = submeshTriangles[submeshIndex];
+            List<int> triList = submeshTriangles[submeshIndex];
             triList.AddRange(triangles.Select(i => i + vertexOffset));
 
             vertexOffset += vertices.Count();
@@ -108,6 +111,9 @@ namespace Rodak.Hexagons.HexUtils
         /// </summary>
         public IReadOnlyList<int> GetTriangles(int submeshIndex)
         {
+            if (submeshIndex < 0)
+                throw new ArgumentException($"{nameof(submeshIndex)} must be above {0}");
+
             if (submeshIndex >= submeshTriangles.Count)
                 return Array.Empty<int>();
 

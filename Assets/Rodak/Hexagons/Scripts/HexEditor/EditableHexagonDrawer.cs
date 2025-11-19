@@ -3,9 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.Reflection;
-using Unity.Collections;
 using UnityEngine.InputSystem.Utilities;
-using UnityEngine.UIElements;
 
 namespace Rodak.Hexagons.HexEditor
 {
@@ -35,7 +33,7 @@ namespace Rodak.Hexagons.HexEditor
             {
                 clipping = TextClipping.Clip,
                 wordWrap = false,
-                padding = new RectOffset(0, 2, 0, 0),
+                padding = new RectOffset(0, 2, 0, 0), // less padding
                 normal = { background = null }
             };
 
@@ -132,7 +130,7 @@ namespace Rodak.Hexagons.HexEditor
             if (field == null)
                 return false;
 
-            return field.GetCustomAttribute<ReadOnlyAttribute>() != null;
+            return field.GetCustomAttribute<HexReadOnly>() != null;
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)

@@ -1,4 +1,4 @@
-using Rodak.Hexagons.Utils;
+using Rodak.Hexagons.HexUtils;
 using Rodak.Hexagons.HexMap;
 using UnityEngine;
 

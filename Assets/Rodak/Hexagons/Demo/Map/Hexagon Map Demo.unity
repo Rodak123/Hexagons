@@ -349,11 +349,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2114215769}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbed6ae7b33599e47b839a65a4a8f7dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 5aa1aa79beb0e55cfbc863fb4f3a3389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rodak.Hexagons.Demo.Map.HexagonMapDemo
-  chunkSize: 4
-  initialSize: 2
+  chunkSize: 6
+  initialSize: 3
   placementPlane: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
