@@ -12,6 +12,9 @@ Author: [Radek Titěra](https://github.com/Rodak123)
     - [Hexagon](#hexagon)
     - [Geometry 2D](#geometry-2d)
     - [Geometry 3D](#geometry-3d)
+    - [Navigation](#navigation)
+      - [Relations](#relations)
+      - [Line](#line)
     - [Grid](#grid)
     - [Map](#map)
     - [Editor](#editor)
@@ -76,6 +79,33 @@ Main features:
 - `GetCorner3D` gets corner 3D coordinate 
 - `GetSide3D` gets side 3D coordinate
 - `GetHexagonAt` gets hexagon that contains the 3D coordinate
+
+### Navigation
+
+[`Rodak.Hexagons.HexNavigation`](./Scripts/HexNavigation/)
+
+These scripts are useful in navigation.
+
+#### Relations
+
+The relations extensions adds functions used for finding related hexagons.
+
+Main features:
+- `GetNeighbors` gets all of the neighbors of the hexagon
+- `GetDiagonals` gets all of the diagonals of the hexagon
+- `GetRange` calculates all hexagons in the movement range of n
+- `GetRing` calculates all hexagons in a ring of a radius
+- `GetSpiral` calculates all hexagons in a spiral up to a radius
+
+#### Line
+
+The `HexagonLine` is a straight line segment between a start and an end hexagon.
+
+Main features:
+- `Length` is the line lengths
+- Indexer [`index`] of a hexagon on this line
+- `Start` is the start hexagon
+- `End` is the end hexagon
 
 ### Grid
 
