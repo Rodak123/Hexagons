@@ -30,9 +30,10 @@ The `Hexagon` class defines an immutable hexagon definition. It uses **axial (Q,
 
 This class includes methods for:
 
+- **Vector operations** (addition, subtraction) and **scalar operations** (multiplication, division) with rounding/flooring options.
 - **Distance calculation** between two hexagons.
 - **Rounding** floating-point coordinates to the nearest valid integer hexagon.
-- **Vector operations** (addition, subtraction) and **scalar operations** (multiplication, division) with rounding/flooring options.
+- **Lerp calculation** between two hexagons.
 
 ---
 

@@ -63,6 +63,14 @@ namespace Rodak.Hexagons.HexMap
         }
 
         /// <summary>
+        /// Removes a chunk from the map's dictionary.
+        /// </summary>
+        protected void RemoveChunk(Hexagon chunkPosition)
+        {
+            chunks.Remove(chunkPosition);
+        }
+
+        /// <summary>
         /// Performs an action on every loaded chunk in the map.
         /// </summary>
         public void ForEach(Action<GChunk> action)
@@ -113,6 +121,19 @@ namespace Rodak.Hexagons.HexMap
             }
 
             chunk = chunks[chunkPosition];
+            return true;
+        }
+
+        /// <summary>
+        /// Tries to remove a loaded chunk from the specified position.
+        /// </summary>
+        /// <returns>True if the chunk was removed, false otherwise.</returns>
+        public bool TryRemoveChunk(Hexagon chunkPosition)
+        {
+            if (!HasChunk(chunkPosition))
+                return false;
+
+            RemoveChunk(chunkPosition);
             return true;
         }
 

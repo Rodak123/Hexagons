@@ -4,31 +4,39 @@ using Rodak.Hexagons.HexUtils;
 using System;
 using Random = UnityEngine.Random;
 using Rodak.Hexagons.HexGeometry3D;
+using System.Collections.Generic;
+using System.Linq;
+using Rodak.Hexagons.Demo.MapMesh.World;
 
 namespace Rodak.Hexagons.Demo.MapMesh
 {
     /// <summary>
     /// This demo shows how you can generate a procedural map mesh.
-    /// And have a unit move on it.
+    /// The map is updated based on a center hexagon position.
+    /// Old chunks are destroyed, while new ones are generated.
+    /// That way it feels infinite.
     /// </summary>
     public class HexagonMapMeshDemo : MonoBehaviour
     {
-        [SerializeField, Min(1)] private int chunkSize = 4;
 
         [Header("World Generation")]
-        [SerializeField] private int seed = 0;
         [SerializeField] private bool randomSeed = true;
+        [SerializeField] private int seed = 0;
         [SerializeField] private float noiseScale = 0.02f;
+
+        [Space]
         [SerializeField] private float stepHeight = 0.1f;
+        [SerializeField, Min(1)] private int chunkSize = 4;
+        [SerializeField, Min(2)] private int visibleChunkArea = 4;
 
         [Header("Mesh Components")]
         [SerializeField] private Material[] meshMaterials;
 
-        private HexagonMap<MapTile> map;
+        private WorldMap map;
 
         private PlacementPlane placementPlane;
 
-        private Vector2 seedOffset;
+        private readonly Dictionary<Hexagon, MapChunkComponent> generatedChunks = new();
 
         public float StepHeight => stepHeight;
         public PlacementPlane PlacementPlane => placementPlane;
@@ -43,56 +51,31 @@ namespace Rodak.Hexagons.Demo.MapMesh
 
             System.Random rng = new(seed);
             const int MaxOffset = 100_000;
-            seedOffset = new(
+            Vector2 seedOffset = new(
                 rng.Next(-MaxOffset, MaxOffset),
                 rng.Next(-MaxOffset, MaxOffset)
             );
 
             placementPlane = PlacementPlane.XZPlane;
-            map = new(chunkSize, CreateHexagonMapValue);
+            map = new(chunkSize, noiseScale, seedOffset, meshMaterials.Length);
 
-            const int InitialSize = 2;
-            for (int i = -InitialSize; i <= InitialSize; i++)
-            {
-                for (int j = -InitialSize; j <= InitialSize; j++)
-                {
-                    if (i + j > InitialSize || i + j < -InitialSize) continue;
-                    Hexagon position = new(i, j);
-                    map.GetOrCreateChunk(position, out bool wasCreated);
-                }
-            }
-
-            map.ForEach((chunk) =>
-            {
-                CreateChunkComponent(chunk);
-            });
+            ShowChunksAround(Hexagon.Zero);
         }
 
-        private void CreateChunkComponent(HexagonChunk<MapTile> chunk)
+        private MapChunkComponent CreateChunkComponent(WorldMapChunk chunk)
         {
             GameObject chunkComponentGO = new("Chunk");
             chunkComponentGO.transform.parent = transform;
 
             MapChunkComponent chunkComponent = chunkComponentGO.AddComponent<MapChunkComponent>();
             chunkComponent.Init(map, chunk, meshMaterials, placementPlane, stepHeight, gameObject.layer);
+
+            return chunkComponent;
         }
 
-        private MapTile CreateHexagonMapValue(Hexagon hexagonPosition, Hexagon chunkPosition)
+        public bool TryGetTileAt(Hexagon hexagonPosition, out WorldMapTile mapTile)
         {
-            int colorCount = meshMaterials.Length;
-
-            Vector2 noisePosition = new Vector2(hexagonPosition.Q, hexagonPosition.R) * noiseScale;
-            float value = Mathf.Clamp01(Mathf.PerlinNoise(noisePosition.x + seedOffset.y, noisePosition.y + seedOffset.x));
-
-            int colorIndex = Mathf.FloorToInt(value * colorCount);
-            if (colorIndex == colorCount) colorIndex = colorCount - 1;
-
-            return new(colorIndex);
-        }
-
-        public bool TryGetTileAt(Hexagon hexagonPosition, out MapTile mapTile)
-        {
-            if (!map.TryGetHexagonsChunk(hexagonPosition, out HexagonChunk<MapTile> chunk))
+            if (!map.TryGetHexagonsChunk(hexagonPosition, out WorldMapChunk chunk))
             {
                 mapTile = null;
                 return false; // Map edge
@@ -114,6 +97,47 @@ namespace Rodak.Hexagons.Demo.MapMesh
             Vector3 hitPosition = hit.point - hit.normal * 0.0001f;
             hexagonPosition = HexagonGeometry3DExtensions.GetHexagonAt(hitPosition, placementPlane);
             return true;
+        }
+
+        public void ShowChunksAround(Hexagon hexagonPosition)
+        {
+            Hexagon centerChunkPosition = map.GetChunkPosition(hexagonPosition);
+
+            List<MapChunkComponent> newChunks = new();
+            HashSet<Hexagon> visibleChunks = new();
+
+            for (int q = -visibleChunkArea; q <= visibleChunkArea; q++)
+            {
+                for (int r = -visibleChunkArea; r <= visibleChunkArea; r++)
+                {
+                    if (q + r > visibleChunkArea || q + r < -visibleChunkArea) continue;
+                    Hexagon chunkPosition = new Hexagon(q, r) + centerChunkPosition;
+                    visibleChunks.Add(chunkPosition);
+
+                    WorldMapChunk chunk = map.GetOrCreateChunk(chunkPosition, out bool wasCreated);
+
+                    if (!wasCreated) continue;
+                    MapChunkComponent chunkComponent = CreateChunkComponent(chunk);
+                    generatedChunks.Add(chunkPosition, chunkComponent);
+                    newChunks.Add(chunkComponent);
+                }
+            }
+
+            HashSet<Hexagon> invisibleChunks = generatedChunks.Keys
+                .Where((hexagon) => !visibleChunks.Contains(hexagon))
+                .ToHashSet();
+
+            foreach (Hexagon chunkPosition in invisibleChunks)
+            {
+                MapChunkComponent chunkComponent = generatedChunks[chunkPosition];
+                chunkComponent.DestroySelf();
+                generatedChunks.Remove(chunkPosition);
+            }
+
+            foreach (MapChunkComponent chunkComponent in newChunks)
+            {
+                chunkComponent.GenerateMesh();
+            }
         }
     }
 }

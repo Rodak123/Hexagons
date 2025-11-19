@@ -173,6 +173,7 @@ MonoBehaviour:
     R: 0
     S: 0
   map: {fileID: 844839671}
+  stepInterval: 0.2
 --- !u!1 &349210065
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +185,7 @@ GameObject:
   - component: {fileID: 349210068}
   - component: {fileID: 349210067}
   - component: {fileID: 349210066}
+  - component: {fileID: 349210069}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -258,13 +260,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349210065}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42066008, y: 0.12281048, z: -0.057582296, w: 0.8970212}
-  m_LocalPosition: {x: -6.4372034, y: 21.959038, z: -26.852499}
+  m_LocalRotation: {x: 0.40622097, y: 0.122760974, z: -0.0551754, w: 0.9038086}
+  m_LocalPosition: {x: -2.8813124, y: 13.1683, z: -10.410933}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &349210069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349210065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c040f2b295e004596bc63b4382d857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rodak.Hexagons.Demo.MapMesh.SimpleCameraFollower
+  target: {fileID: 297558570}
+  lerpSpeed: 2
 --- !u!1 &844839669
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +337,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 42ffc9ca5355ab0f5bfdf9d8c4674a83, type: 2}
   - {fileID: 2100000, guid: de7c5d5307256169c9531daaeaf7936a, type: 2}
   - {fileID: 2100000, guid: 86d444ab1975d9e44aae9691a7232a7e, type: 2}
-  meshLayer: 6
 --- !u!1 &920768436
 GameObject:
   m_ObjectHideFlags: 0

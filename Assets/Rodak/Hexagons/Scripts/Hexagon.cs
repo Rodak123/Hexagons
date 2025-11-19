@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Rodak.Hexagons
 {
@@ -74,13 +75,28 @@ namespace Rodak.Hexagons
         public static Hexagon GetNearestHexagonFloor(float qFloat, float rFloat) => GetNearestHexagonFloor(qFloat, rFloat, -(qFloat + rFloat));
 
         /// <summary>
-        /// Calculates the distance between two hexagons (Manhattan distance divided by 2).
+        /// Calculates the distance between two hexagons.
         /// </summary>
         /// <returns>Distance</returns>
         public static float Distance(Hexagon a, Hexagon b)
         {
             Hexagon diff = a - b;
             return (Math.Abs(diff.Q) + Math.Abs(diff.R) + Math.Abs(diff.S)) / 2f;
+        }
+
+        /// <summary>
+        /// Linearly interpolates between two hexagons.
+        /// </summary>
+        /// <returns>Interpolated hexagon.</returns>
+        public static Hexagon Lerp(Hexagon start, Hexagon end, float t)
+        {
+            t = Mathf.Clamp01(t);
+
+            float qFloat = Mathf.Lerp(start.Q, end.Q, t);
+            float rFloat = Mathf.Lerp(start.R, end.R, t);
+            float sFloat = Mathf.Lerp(start.S, end.S, t);
+
+            return GetNearestHexagonRound(qFloat, rFloat, sFloat);
         }
 
         /// <summary>Rounds the scalar multiplication of a Hexagon to the nearest integer coordinates.</summary>
