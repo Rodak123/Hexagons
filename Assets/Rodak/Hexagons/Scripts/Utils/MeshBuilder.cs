@@ -7,8 +7,6 @@ namespace Rodak.Hexagons.HexUtils
 {
     /// <summary>
     /// Utility class that helps with mesh creation.
-    /// It collects vertices, UVs, and triangles from multiple sources
-    /// to form a single mesh.
     /// </summary>
     public class MeshBuilder
     {
@@ -72,10 +70,6 @@ namespace Rodak.Hexagons.HexUtils
         /// Appends new mesh data to the specified submesh.
         /// Triangle indices are automatically offset to account for existing vertices.
         /// </summary>
-        /// <param name="submeshIndex">The submesh to append to.</param>
-        /// <param name="vertices">Vertices to add.</param>
-        /// <param name="uv">UV coordinates to add.</param>
-        /// <param name="triangles">Triangle indices to add.</param>
         public void AppendToSubmesh(int submeshIndex,
                                     IEnumerable<Vector3> vertices,
                                     IEnumerable<Vector2> uv,

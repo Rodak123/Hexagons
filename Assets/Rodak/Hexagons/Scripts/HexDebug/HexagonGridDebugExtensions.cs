@@ -4,9 +4,9 @@ using Rodak.Hexagons.Utils;
 
 namespace Rodak.Hexagons.HexDebug
 {
-    /**
-     * Provides utility methods for drawing visual representations of HexagonGrid contents in 3D for debugging.
-     */
+    /// <summary>
+    /// Provides utility methods for drawing visual representations of HexagonGrid contents in 3D for debugging.
+    /// </summary>
     public static class HexagonGridDebugExtensions
     {
 

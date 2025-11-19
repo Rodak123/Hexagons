@@ -3,9 +3,12 @@ using Rodak.Hexagons.HexUtils;
 using UnityEngine;
 using Rodak.Hexagons.Utils;
 
-namespace Rodak.Hexagons.Demo.Meshes
+namespace Rodak.Hexagons.Demo.SingleMesh
 {
-    public class HexagonMeshesDemo : MonoBehaviour
+    /// <summary>
+    /// This demo shows how to generate a mesh for a single hexagon. 
+    /// </summary>
+    public class HexagonSingleMeshDemo : MonoBehaviour
     {
         [SerializeField] private DemoPlacementPlane placementPlane = DemoPlacementPlane.XZ;
         [SerializeField, Min(0.001f)] private float height = 1;

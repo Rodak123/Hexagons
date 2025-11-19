@@ -16,9 +16,29 @@ namespace Rodak.Hexagons.HexMap
         private readonly Dictionary<Hexagon, GChunk> chunks = new();
 
         /// <summary>
+        /// Gets a list of the Hexagon coordinates for all loaded chunks.
+        /// </summary>
+        public List<Hexagon> ChunkHexagons => chunks.Keys.ToList();
+
+        /// <summary>
         /// The size parameter used to define the dimensions of each chunk.
         /// </summary>
         public readonly int ChunkSize;
+
+        /// <summary>
+        /// Gets the chunk associated with a specific <see cref="Hexagon"/> chunk position.
+        /// </summary>
+        /// <returns>The chunk.</returns>
+        /// <exception cref="IndexOutOfRangeException">When the <see cref="Hexagon"/> chunk position is not in this map.</exception>
+        public GChunk this[Hexagon chunkPosition]
+        {
+            get
+            {
+                if (TryGetChunk(chunkPosition, out GChunk value))
+                    return value;
+                throw new IndexOutOfRangeException($"{chunkPosition} is not in this map");
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the AHexagonMap class.
@@ -33,11 +53,6 @@ namespace Rodak.Hexagons.HexMap
         /// </summary>
         /// <returns>A new chunk object.</returns>
         protected abstract GChunk CreateChunk(Hexagon chunkPosition);
-
-        /// <summary>
-        /// Gets a list of the Hexagon coordinates for all loaded chunks.
-        /// </summary>
-        public List<Hexagon> ChunkHexagons => chunks.Keys.ToList();
 
         /// <summary>
         /// Adds a chunk to the map's dictionary.

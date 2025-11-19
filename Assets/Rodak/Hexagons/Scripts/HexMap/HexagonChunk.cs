@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Rodak.Hexagons.HexMap
 {
-    /**
-     * Provides static utility functions for calculating properties of hexagon chunks.
-     */
+    /// <summary>
+    /// Provides static utility functions for calculating properties of hexagon chunks.
+    /// </summary>
     public static class HexagonChunkExtensions
     {
         /// <summary>
@@ -38,6 +38,21 @@ namespace Rodak.Hexagons.HexMap
         /// The Hexagon coordinate of the chunk's center in the map.
         /// </summary>
         public readonly Hexagon Position;
+
+        /// <summary>
+        /// Gets the value associated with a specific <see cref="Hexagon"/> position.
+        /// </summary>
+        /// <returns>The value.</returns>
+        /// <exception cref="IndexOutOfRangeException">When the <see cref="Hexagon"/> position is not in this chunk.</exception>
+        public TTile this[Hexagon position]
+        {
+            get
+            {
+                if (TryGetValue(position, out TTile value))
+                    return value;
+                throw new IndexOutOfRangeException($"{position} is not in this chunk");
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the HexagonChunk class.

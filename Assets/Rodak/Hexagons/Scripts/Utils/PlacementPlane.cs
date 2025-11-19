@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rodak.Hexagons.Utils
 {
     /// <summary>
-    /// Used to place a 2D hexagon to a 3D world. It defines a plane and provides methods to convert between 2D coordinates on the plane and 3D world coordinates.
+    /// Used to place a 2D hexagon to a 3D world.
     /// </summary>
     public class PlacementPlane
     {
@@ -64,7 +64,6 @@ namespace Rodak.Hexagons.Utils
         /// <summary>
         /// Places the 2D vector to the 3D plane equivalent by scaling the plane's 'right' and 'forward' vectors.
         /// </summary>
-        /// <param name="vector">The 2D plane vector, where X is along the plane's right axis and Y is along its forward axis.</param>
         /// <returns>The 3D vector on the plane, relative to the origin.</returns>
         public Vector3 LayOnPlane(Vector2 vector)
         {
@@ -74,13 +73,12 @@ namespace Rodak.Hexagons.Utils
         /// <summary>
         /// Gets the 2D vector equivalent of a 3D vector that lies on the plane.
         /// </summary>
-        /// <param name="vector">The 3D vector on the plane, relative to the origin.</param>
         /// <returns>The 2D plane vector, where X is the projection onto the plane's right axis and Y is the projection onto its forward axis.</returns>
         public Vector2 Get2DPosition(Vector3 vector)
         {
-            // 2D x-component is the projection onto planeRight
+            // 2D x component is the projection onto planeRight
             float x = Vector3.Dot(vector, planeRight);
-            // 2D y-component is the projection onto planeForward
+            // 2D y component is the projection onto planeForward
             float y = Vector3.Dot(vector, planeForward);
 
             return new Vector2(x, y);

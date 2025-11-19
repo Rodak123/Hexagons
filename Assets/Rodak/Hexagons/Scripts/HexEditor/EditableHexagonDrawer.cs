@@ -4,49 +4,80 @@ using UnityEditor;
 using System;
 using System.Reflection;
 using Unity.Collections;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.UIElements;
 
 namespace Rodak.Hexagons.HexEditor
 {
+
     [CustomPropertyDrawer(typeof(EditableHexagon))]
     public class EditableHexagonDrawer : PropertyDrawer
     {
-        // If true, Q and R auto corrects S, S auto corrects Q
-        // If fale, Q auto corrects R, R auto corrects S, S auto corrects Q
-        public static bool TwoComponentAutoCorrect = false;
+        public static HexAutoCorrectMode DefaultAutoCorrectMode = HexAutoCorrectMode.Staggered;
 
         private const string Q = "Q";
         private const string R = "R";
         private const string S = "S";
 
+        private const float Spacing = 5f;
+        private const float LabelWidth = 13f;
+
+        private const float SmallModeSize = 300f;
+        private const float MinFieldWidth = 190f;
+
+        private static readonly ReadOnlyArray<string> PropertyNames = new(new[] { Q, R, S });
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            GUIStyle clippedStyle = new(EditorStyles.label)
+            {
+                clipping = TextClipping.Clip,
+                wordWrap = false,
+                padding = new RectOffset(0, 2, 0, 0),
+                normal = { background = null }
+            };
+
+            if (position.width < SmallModeSize && position.width > MinFieldWidth)
+            {
+                float freeSpace = Mathf.Max(position.width - MinFieldWidth, 0);
+
+                Rect labelPosition = new(position.x, position.y, freeSpace, position.height);
+
+
+                var controlID = GUIUtility.GetControlID(FocusType.Passive);
+                EditorGUI.PrefixLabel(labelPosition, controlID, GUIContent.none);
+
+                GUIContent labelContent = new(label.text, label.tooltip ?? label.text);
+                GUI.Label(labelPosition, labelContent, clippedStyle);
+
+                position = new(position.x + freeSpace, position.y, position.width - freeSpace, position.height);
+            }
+            else
+            {
+                position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label, clippedStyle);
+            }
 
             bool isReadOnly = IsReadOnly(property);
             EditorGUI.BeginDisabledGroup(isReadOnly);
 
-            string[] propertyNames = { Q, R, S };
-            float spacing = 5f;
-
-            float totalFieldWidth = position.width - (spacing * (propertyNames.Length - 1));
-            float fieldWidth = totalFieldWidth / propertyNames.Length;
-            float labelWidth = 13f;
+            float totalFieldWidth = position.width - (Spacing * (PropertyNames.Count - 1));
+            float singleFieldWidth = totalFieldWidth / PropertyNames.Count;
 
             float oldLabelWidth = EditorGUIUtility.labelWidth;
-            EditorGUIUtility.labelWidth = labelWidth;
+            EditorGUIUtility.labelWidth = LabelWidth;
 
-            Rect fieldRect = new Rect(position.x, position.y, fieldWidth, position.height);
+            Rect fieldRect = new(position.x, position.y, singleFieldWidth, position.height);
 
-            for (int i = 0; i < propertyNames.Length; i++)
+            for (int i = 0; i < PropertyNames.Count; i++)
             {
                 if (i > 0)
                 {
-                    fieldRect.x += fieldWidth + spacing;
+                    fieldRect.x += singleFieldWidth + Spacing;
                 }
 
-                string propertyName = propertyNames[i];
+                string propertyName = PropertyNames[i];
                 SerializedProperty subProperty = property.FindPropertyRelative(propertyName);
 
                 EditorGUI.BeginChangeCheck();
@@ -55,7 +86,7 @@ namespace Rodak.Hexagons.HexEditor
 
                 if (EditorGUI.EndChangeCheck())
                 {
-                    UpdateValue(propertyName, property);
+                    AutoCorrectValue(propertyName, property);
                 }
             }
 
@@ -65,39 +96,32 @@ namespace Rodak.Hexagons.HexEditor
             EditorGUI.EndProperty();
         }
 
-        private void UpdateValue(string changedProperty, SerializedProperty property)
+        private void AutoCorrectValue(string changedProperty, SerializedProperty property)
         {
             SerializedProperty qProperty = property.FindPropertyRelative(Q);
             SerializedProperty rProperty = property.FindPropertyRelative(R);
             SerializedProperty sProperty = property.FindPropertyRelative(S);
 
-            int q = qProperty.intValue;
-            int r = rProperty.intValue;
-            int s = sProperty.intValue;
+            HexAutoCorrectMode autoCorrectMode = GetHexAutoCorrectMode();
 
-            if (q + r + s == 0) return;
-
-            switch (changedProperty)
+            (qProperty.intValue, rProperty.intValue, sProperty.intValue) = changedProperty switch
             {
-                case Q:
-                    if (TwoComponentAutoCorrect)
-                    {
-                        sProperty.intValue = -(q + r);
-                    }
-                    else
-                    {
-                        rProperty.intValue = -(q + s);
-                    }
-                    break;
-                case R:
-                    sProperty.intValue = -(q + r);
-                    break;
-                case S:
-                    qProperty.intValue = -(r + s);
-                    break;
-                default:
-                    throw new ArgumentException($"{nameof(changedProperty)} has unknown value: ${changedProperty}");
+                Q => HexagonAutoCorrector.AutoCorrectByQ(qProperty.intValue, rProperty.intValue, sProperty.intValue, autoCorrectMode),
+                R => HexagonAutoCorrector.AutoCorrectByR(qProperty.intValue, rProperty.intValue, sProperty.intValue, autoCorrectMode),
+                S => HexagonAutoCorrector.AutoCorrectByS(qProperty.intValue, rProperty.intValue, sProperty.intValue, autoCorrectMode),
+                _ => throw new ArgumentException($"{nameof(changedProperty)} has unknown value: ${changedProperty}"),
+            };
+        }
+
+        private HexAutoCorrectMode GetHexAutoCorrectMode()
+        {
+            if (fieldInfo != null)
+            {
+                var attr = fieldInfo.GetCustomAttribute<HexAutoCorrect>();
+                if (attr != null)
+                    return attr.AutoCorrectMode;
             }
+            return DefaultAutoCorrectMode;
         }
 
         private bool IsReadOnly(SerializedProperty property)

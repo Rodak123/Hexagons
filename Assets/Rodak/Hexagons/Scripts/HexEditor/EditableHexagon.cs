@@ -35,6 +35,7 @@ namespace Rodak.Hexagons.HexEditor
         /// Initializes a new instance of the EditableHexagon class with coordinates (0, 0, 0).
         /// </summary>
         public EditableHexagon() : this(0, 0, 0) { }
+
         /// <summary>
         /// Initializes a new instance of the EditableHexagon class with specified coordinates.
         /// </summary>
@@ -63,10 +64,6 @@ namespace Rodak.Hexagons.HexEditor
             return Q + R + S == 0;
         }
 
-        /// <summary>
-        /// Returns a string representation of the EditableHexagon.
-        /// </summary>
-        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return $"EditableHexagon[{(Hexagon)this}]";

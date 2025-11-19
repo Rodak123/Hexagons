@@ -5,6 +5,9 @@ using Rodak.Hexagons.Utils;
 
 namespace Rodak.Hexagons.Demo.Grid
 {
+    /// <summary>
+    /// This demo shows how you can generate a grid. And how to place any hexagon on a 3D plane.
+    /// </summary>
     public class HexagonGridDemo : MonoBehaviour
     {
         [SerializeField, Min(1)] private int size = 6;

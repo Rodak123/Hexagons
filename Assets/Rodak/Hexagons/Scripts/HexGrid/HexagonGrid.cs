@@ -32,6 +32,21 @@ namespace Rodak.Hexagons.HexGrid
         public int SizeAcross => Size * 2 + 1;
 
         /// <summary>
+        /// Gets the value associated with a specific <see cref="Hexagon"/> position.
+        /// </summary>
+        /// <returns>The value.</returns>
+        /// <exception cref="IndexOutOfRangeException">When the <see cref="Hexagon"/> position is not in this grid.</exception>
+        public T this[Hexagon position]
+        {
+            get
+            {
+                if (TryGetValue(position, out T value))
+                    return value;
+                throw new IndexOutOfRangeException($"{position} is not in this grid");
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HexagonGrid{T}"/> class.
         /// The grid is generated as a rhombus of a given size centered at (0, 0).
         /// </summary>

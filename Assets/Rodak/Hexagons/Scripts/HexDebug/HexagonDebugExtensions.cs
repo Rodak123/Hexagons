@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Rodak.Hexagons.HexDebug
 {
-    /**
-     * Provides utility methods for drawing visual representations of Hexagons in 3D for debugging purposes.
-     */
+    /// <summary>
+    /// Provides utility methods for drawing visual representations of Hexagons in 3D for debugging purposes.
+    /// </summary>
     public static class HexagonDebugExtensions
     {
         /// <summary>

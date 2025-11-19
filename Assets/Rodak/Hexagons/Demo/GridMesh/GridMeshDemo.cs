@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace Rodak.Hexagons.Demo.GridMesh
 {
+    /// <summary>
+    /// This demo uses the HexaonGrid to generate a map of varying heights.
+    /// It stores the height value in the grid and uses that value to determine the height and color.
+    /// </summary>
     public class GridMeshDemo : MonoBehaviour
     {
         [SerializeField, Min(1)] private int size = 4;

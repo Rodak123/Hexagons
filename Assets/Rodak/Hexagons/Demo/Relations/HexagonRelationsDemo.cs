@@ -7,6 +7,9 @@ using Rodak.Hexagons.Utils;
 
 namespace Rodak.Hexagons.Demo.Relations
 {
+    /// <summary>
+    /// This demo shows what relations can you get around a hexagon.
+    /// </summary>
     public class HexagonRelationsDemo : MonoBehaviour
     {
         [SerializeField] private EditableHexagon centerHexagon;

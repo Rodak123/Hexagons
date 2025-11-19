@@ -406,6 +406,14 @@ MonoBehaviour:
     Q: 12
     R: 7
     S: -19
+  twoCompoenentHexagon:
+    Q: 3
+    R: 3
+    S: -6
+  staggeredHexagon:
+    Q: 3
+    R: -5
+    S: 2
   placementPlane: 0
   center: {fileID: 835304935}
   vertices:

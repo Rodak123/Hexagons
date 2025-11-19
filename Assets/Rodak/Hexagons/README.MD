@@ -6,8 +6,6 @@ Author: [Radek Titěra](https://github.com/Rodak123)
 
 ## Todo
 
-- Neighbours
-- Diagonals
 - Ring
 - Movement range
 - Line drawing
@@ -28,7 +26,7 @@ Author: [Radek Titěra](https://github.com/Rodak123)
 
 ## Hexagon
 
-The `Hexagon` class defines an immutable hexagon definition. It uses **axial (Q, R) coordinates** for storage, with the third coordinate **S** automatically calculated to ensure **Q + R + S = 0**.
+The `Hexagon` class defines an immutable hexagon definition. It uses **axial (Q, R) coordinates** for storage, with the third coordinate **S** automatically calculated: **Q + R + S = 0**.
 
 This class includes methods for:
 
@@ -45,6 +43,7 @@ The `EditableHexagon` class is a **mutable** version of the `Hexagon` struct. It
 - It has public fields **Q**, **R**, and **S**.
 - It supports **implicit conversion** to and from the immutable `Hexagon` struct.
 - It includes an `IsValid()` method to check if the coordinates satisfy the $\text{Q} + \text{R} + \text{S} = 0$ constraint.
+- It automatically ensures a valid hexagon
 
 ---
 

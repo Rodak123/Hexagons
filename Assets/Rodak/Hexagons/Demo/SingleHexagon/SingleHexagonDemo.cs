@@ -7,10 +7,22 @@ using UnityEngine;
 
 namespace Rodak.Hexagons.Demo.SingleHexagon
 {
+    /// <summary>
+    /// This demo shows the geometry function that can be used to get  various parts of the hexagon.
+    /// The placement plane can be anything not just XY.
+    /// </summary>
     public class SingleHexagonDemo : MonoBehaviour
     {
         [SerializeField] private EditableHexagon editableHexagon = Hexagon.Zero;
         [SerializeField, ReadOnly] private EditableHexagon readonlyHexagon = new Hexagon(12, 7);
+
+        [Header("TwoComponent auto correct")]
+        [SerializeField, HexAutoCorrect(HexAutoCorrectMode.TwoComponent)] private EditableHexagon twoCompoenentHexagon;
+
+        [Header("Staggered auto correct (default)")]
+        [SerializeField, HexAutoCorrect(HexAutoCorrectMode.Staggered)] private EditableHexagon staggeredHexagon;
+
+        [Header("3D Plane")]
         [SerializeField] private DemoPlacementPlane placementPlane = DemoPlacementPlane.XY;
 
         [Header("Visuals")]

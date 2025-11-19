@@ -3,12 +3,12 @@ using Rodak.Hexagons.HexMap;
 using UnityEngine;
 using Rodak.Hexagons.Utils;
 
-namespace Rodak.Hexagons.Demo.Map
+namespace Rodak.Hexagons.Demo.MapMesh
 {
     /// <summary>
-    /// This demo shows how you can generate a map. And how the chunks are placed.
+    /// This demo shows how you can generate a map and its geometry.
     /// </summary>
-    public class HexagonMapDemo : MonoBehaviour
+    public class HexagonMapMeshDemo : MonoBehaviour
     {
         [SerializeField, Min(1)] private int chunkSize = 6;
         [SerializeField, Min(1)] private int initialSize = 6;
