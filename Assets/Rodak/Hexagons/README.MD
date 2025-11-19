@@ -1,6 +1,6 @@
 # Just Hexagons
 
-A bundle of scripts that help with doing stuff with hexagons
+A bundle full of useful scripts for working with hexagons in every way.
 
 Author: [Radek Titěra](https://github.com/Rodak123)
 
@@ -8,17 +8,21 @@ Author: [Radek Titěra](https://github.com/Rodak123)
 
 - [Just Hexagons](#just-hexagons)
   - [Contents](#contents)
-  - [Hexagon](#hexagon)
-  - [Geometry](#geometry)
-  - [Geometry 3D](#geometry-3d)
-  - [Grid](#grid)
-  - [Map](#map)
-  - [Editor](#editor)
-  - [Debug](#debug)
-  - [IO](#io)
-  - [Utils](#utils)
+  - [Scripts](#scripts)
+    - [Hexagon](#hexagon)
+    - [Geometry](#geometry)
+    - [Geometry 3D](#geometry-3d)
+    - [Grid](#grid)
+    - [Map](#map)
+    - [Editor](#editor)
+    - [Debug](#debug)
+    - [IO](#io)
+    - [Utils](#utils)
+  - [Included Demos](#included-demos)
 
-## Hexagon
+## Scripts
+
+### Hexagon
 
 The `Hexagon` is the core of this library.
 
@@ -26,50 +30,54 @@ It is defined as an immutable `record` of **axial coordinates** `Q`, `R` and `S`
 
 All hexagons enforce $Q + R + S = 0$
 
-## Geometry
+### Geometry
 
 `Rodak.Hexagons.HexGeometry`
 
 geometry
 
-## Geometry 3D
+### Geometry 3D
 
 `Rodak.Hexagons.HexGeometry3D`
 
 geometry 3d
 
-## Grid
+### Grid
 
 `Rodak.Hexagons.HexGrid`
 
 grid
 
-## Map
+### Map
 
 `Rodak.Hexagons.HexMap`
 
 map
 
-## Editor
+### Editor
 
 `Rodak.Hexagons.HexEditor`
 
 editor
 
-## Debug
+### Debug
 
 `Rodak.Hexagons.HexDebug`
 
 debug
 
-## IO
+### IO
 
 `Rodak.Hexagons.HexIO`
 
 binary
 
-## Utils
+### Utils
 
 `Rodak.Hexagons.Utils`
 
 binary
+
+## Included Demos
+
+demos
