@@ -21,7 +21,6 @@ Author: [Radek Titěra](https://github.com/Rodak123)
     - [Utils](#utils)
       - [Placement Plane](#placement-plane)
       - [Mesh Builder](#mesh-builder)
-  - [Included Demos](#included-demos)
 
 ## Scripts
 
@@ -188,7 +187,3 @@ Main features:
 Manages verticies, uv's and submesh triangles.
 
 Easily convertable to the `UnityEngine.Mesh` with `ToMesh`.
-
-## Included Demos
-
-demos
