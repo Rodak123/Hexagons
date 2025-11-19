@@ -32,49 +32,47 @@ All hexagons enforce $Q + R + S = 0$
 
 ### Geometry
 
-`Rodak.Hexagons.HexGeometry`
-
-geometry
+[`Rodak.Hexagons.HexGeometry`](./Scripts/HexGeometry/)
 
 ### Geometry 3D
 
-`Rodak.Hexagons.HexGeometry3D`
+[`Rodak.Hexagons.HexGeometry3D`](./Scripts/HexGeometry3D/)
 
 geometry 3d
 
 ### Grid
 
-`Rodak.Hexagons.HexGrid`
+[`Rodak.Hexagons.HexGrid`](./Scripts/HexGrid/)
 
 grid
 
 ### Map
 
-`Rodak.Hexagons.HexMap`
+[`Rodak.Hexagons.HexMap`](./Scripts/HexMap/)
 
 map
 
 ### Editor
 
-`Rodak.Hexagons.HexEditor`
+[`Rodak.Hexagons.HexEditor`](./Scripts/HexEditor/)
 
 editor
 
 ### Debug
 
-`Rodak.Hexagons.HexDebug`
+[`Rodak.Hexagons.HexDebug`](./Scripts/HexDebug/)
 
 debug
 
 ### IO
 
-`Rodak.Hexagons.HexIO`
+[`Rodak.Hexagons.HexIO`](./Scripts/HexIO/)
 
 binary
 
 ### Utils
 
-`Rodak.Hexagons.Utils`
+[`Rodak.Hexagons.HexIO`](./Scripts/HexIO/)
 
 binary
 
