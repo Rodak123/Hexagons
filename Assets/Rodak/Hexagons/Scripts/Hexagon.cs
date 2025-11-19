@@ -1,3 +1,8 @@
+/**
+ * Just Hexagons
+ * Author: Radek Titěra
+ */
+
 using System;
 using UnityEngine;
 
