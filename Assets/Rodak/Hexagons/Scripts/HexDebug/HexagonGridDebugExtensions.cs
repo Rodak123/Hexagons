@@ -13,10 +13,10 @@ namespace Rodak.Hexagons.HexDebug
         /// <summary>
         /// Draws an outline of each hexagon in the grid. 
         /// </summary>
-        /// <typeparam name="T">Grid value</typeparam>
-        public static void DebugDraw<T>(this HexagonGrid<T> hexagonGrid, PlacementPlane placementPlane, Color color, float duration = 0.0f, bool drawTriangles = false, bool depthTest = true)
+        /// <typeparam name="TTile">Grid value</typeparam>
+        public static void DebugDraw<TTile>(this HexagonGrid<TTile> hexagonGrid, PlacementPlane placementPlane, Color color, float duration = 0.0f, bool drawTriangles = false, bool depthTest = true)
         {
-            hexagonGrid.ForEach((Hexagon hexagon, T value) =>
+            hexagonGrid.ForEach((Hexagon hexagon, TTile value) =>
             {
                 hexagon.DebugDraw(placementPlane, color, duration, drawTriangles, depthTest);
             });

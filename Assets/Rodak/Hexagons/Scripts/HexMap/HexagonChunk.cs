@@ -44,13 +44,13 @@ namespace Rodak.Hexagons.HexMap
         /// </summary>
         /// <returns>The value.</returns>
         /// <exception cref="IndexOutOfRangeException">When the <see cref="Hexagon"/> position is not in this chunk.</exception>
-        public TTile this[Hexagon position]
+        public TTile this[Hexagon hexagonPosition]
         {
             get
             {
-                if (TryGetValue(position, out TTile value))
+                if (TryGetValue(hexagonPosition, out TTile value))
                     return value;
-                throw new IndexOutOfRangeException($"{position} is not in this chunk");
+                throw new IndexOutOfRangeException($"{hexagonPosition} is not in this chunk");
             }
         }
 
@@ -90,29 +90,29 @@ namespace Rodak.Hexagons.HexMap
         /// Checks if the chunk contains the tile at the given Hexagon coordinate.
         /// </summary>
         /// <returns>True if the hexagon is in the chunk, false otherwise.</returns>
-        public bool ContainsHexagon(Hexagon position)
+        public bool ContainsHexagon(Hexagon hexagonPosition)
         {
-            return values.ContainsKey(position);
+            return values.ContainsKey(hexagonPosition);
         }
 
         /// <summary>
         /// Attempts to retrieve the value of a hexagon tile in the chunk.
         /// </summary>
         /// <returns>True if the value was successfully retrieved, false otherwise.</returns>
-        public bool TryGetValue(Hexagon position, out TTile value)
+        public bool TryGetValue(Hexagon hexagonPosition, out TTile value)
         {
-            return values.TryGetValue(position, out value);
+            return values.TryGetValue(hexagonPosition, out value);
         }
 
         /// <summary>
         /// Sets the value of a hexagon tile in the chunk.
         /// </summary>
         /// <returns>True if the value was successfully set, false if the hexagon is not in the chunk.</returns>
-        public bool SetValue(Hexagon position, TTile value)
+        public bool SetValue(Hexagon hexagonPosition, TTile value)
         {
-            if (!values.ContainsKey(position))
+            if (!values.ContainsKey(hexagonPosition))
                 return false;
-            values[position] = value;
+            values[hexagonPosition] = value;
             return true;
         }
 

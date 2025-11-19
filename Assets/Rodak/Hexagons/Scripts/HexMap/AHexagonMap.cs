@@ -85,7 +85,7 @@ namespace Rodak.Hexagons.HexMap
         /// Checks if a chunk at the specified position is currently loaded.
         /// </summary>
         /// <returns>True if the chunk is loaded, false otherwise.</returns>
-        public bool HasChunk(Hexagon chunkPosition)
+        public bool ContainsChunkPosition(Hexagon chunkPosition)
         {
             return chunks.ContainsKey(chunkPosition);
         }
@@ -96,7 +96,7 @@ namespace Rodak.Hexagons.HexMap
         /// <returns>The existing or newly created chunk.</returns>
         public GChunk GetOrCreateChunk(Hexagon chunkPosition, out bool wasCreated)
         {
-            if (HasChunk(chunkPosition))
+            if (ContainsChunkPosition(chunkPosition))
             {
                 wasCreated = false;
                 return chunks[chunkPosition];
@@ -114,7 +114,7 @@ namespace Rodak.Hexagons.HexMap
         /// <returns>True if the chunk was found, false otherwise.</returns>
         public bool TryGetChunk(Hexagon chunkPosition, out GChunk chunk)
         {
-            if (!HasChunk(chunkPosition))
+            if (!ContainsChunkPosition(chunkPosition))
             {
                 chunk = default;
                 return false;
@@ -130,7 +130,7 @@ namespace Rodak.Hexagons.HexMap
         /// <returns>True if the chunk was removed, false otherwise.</returns>
         public bool TryRemoveChunk(Hexagon chunkPosition)
         {
-            if (!HasChunk(chunkPosition))
+            if (!ContainsChunkPosition(chunkPosition))
                 return false;
 
             RemoveChunk(chunkPosition);

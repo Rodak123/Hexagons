@@ -5,14 +5,12 @@ using System.Linq;
 namespace Rodak.Hexagons.HexGrid
 {
     /// <summary>
-    /// Defines a grid of hexagons, using cubic coordinates (i, j, k where i+j+k=0),
-    /// that stores a value of type T for each hexagon.
-    /// The grid shape is a rhombus (or diamond) centered at (0, 0).
+    /// Defines a grid of hexagons that stores a value of type T for each hexagon.
     /// </summary>
-    /// <typeparam name="T">The type of value stored in each hexagon cell.</typeparam>
-    public class HexagonGrid<T>
+    /// <typeparam name="TTile">The type of value stored in each hexagon cell.</typeparam>
+    public class HexagonGrid<TTile>
     {
-        private readonly Dictionary<Hexagon, T> values = new();
+        private readonly Dictionary<Hexagon, TTile> values = new();
 
         /// <summary>
         /// Gets a list of all <see cref="Hexagon"/> positions currently in the grid.
@@ -36,13 +34,13 @@ namespace Rodak.Hexagons.HexGrid
         /// </summary>
         /// <returns>The value.</returns>
         /// <exception cref="IndexOutOfRangeException">When the <see cref="Hexagon"/> position is not in this grid.</exception>
-        public T this[Hexagon position]
+        public TTile this[Hexagon hexagonPosition]
         {
             get
             {
-                if (TryGetValue(position, out T value))
+                if (TryGetValue(hexagonPosition, out TTile value))
                     return value;
-                throw new IndexOutOfRangeException($"{position} is not in this grid");
+                throw new IndexOutOfRangeException($"{hexagonPosition} is not in this grid");
             }
         }
 
@@ -51,9 +49,9 @@ namespace Rodak.Hexagons.HexGrid
         /// The grid is generated as a rhombus of a given size centered at (0, 0).
         /// </summary>
         /// <exception cref="ArgumentException">Thrown if <paramref name="size"/> is negative.</exception>
-        public HexagonGrid(int size, Func<Hexagon, T> createValue)
+        public HexagonGrid(int size, Func<Hexagon, TTile> createValue)
         {
-            if (size < 0) throw new ArgumentException($"{nameof(size)} of a {nameof(HexagonGrid<T>)} must be positive");
+            if (size < 0) throw new ArgumentException($"{nameof(size)} of a {nameof(HexagonGrid<TTile>)} must be positive");
             Size = size;
 
             for (int i = -Size; i <= Size; i++)
@@ -72,11 +70,11 @@ namespace Rodak.Hexagons.HexGrid
         /// <summary>
         /// Executes an action for every hexagon and its associated value in the grid.
         /// </summary>
-        public void ForEach(Action<Hexagon, T> action)
+        public void ForEach(Action<Hexagon, TTile> action)
         {
-            Hexagons.ForEach((Hexagon position) =>
+            Hexagons.ForEach((Hexagon hexagonPosition) =>
             {
-                action(position, values[position]);
+                action(hexagonPosition, values[hexagonPosition]);
             });
         }
 
@@ -84,39 +82,35 @@ namespace Rodak.Hexagons.HexGrid
         /// Checks if a specific <see cref="Hexagon"/> position is contained within the grid bounds.
         /// </summary>
         /// <returns><c>true</c> if the position is in the grid; otherwise, <c>false</c>.</returns>
-        public bool ContainsHexagon(Hexagon position)
+        public bool ContainsHexagon(Hexagon hexagonPosition)
         {
-            return values.ContainsKey(position);
+            return values.ContainsKey(hexagonPosition);
         }
 
         /// <summary>
         /// Attempts to retrieve the value associated with a specific <see cref="Hexagon"/> position.
         /// </summary>
         /// <returns><c>true</c> if the grid contains the position; otherwise, <c>false</c>.</returns>
-        public bool TryGetValue(Hexagon position, out T value)
+        public bool TryGetValue(Hexagon hexagonPosition, out TTile value)
         {
-            return values.TryGetValue(position, out value);
+            return values.TryGetValue(hexagonPosition, out value);
         }
 
         /// <summary>
         /// Attempts to set a new value for a specific <see cref="Hexagon"/> position.
         /// </summary>
         /// <returns><c>true</c> if the position exists and was updated; otherwise, <c>false</c>.</returns>
-        public bool SetValue(Hexagon position, T value)
+        public bool TrySetValue(Hexagon hexagonPosition, TTile value)
         {
-            if (!values.ContainsKey(position))
+            if (!values.ContainsKey(hexagonPosition))
                 return false;
-            values[position] = value;
+            values[hexagonPosition] = value;
             return true;
         }
 
-        /// <summary>
-        /// Returns a string that represents the current grid.
-        /// </summary>
-        /// <returns>A string in the format "HexGrid[Size, Type]".</returns>
         public override string ToString()
         {
-            return $"HexGrid[{Size}, {typeof(T)}]";
+            return $"HexGrid[{Size}, {typeof(TTile)}]";
         }
     }
 }

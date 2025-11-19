@@ -10,14 +10,17 @@ Author: [Radek Titěra](https://github.com/Rodak123)
   - [Contents](#contents)
   - [Scripts](#scripts)
     - [Hexagon](#hexagon)
-    - [Geometry](#geometry)
+    - [Geometry 2D](#geometry-2d)
     - [Geometry 3D](#geometry-3d)
     - [Grid](#grid)
     - [Map](#map)
     - [Editor](#editor)
     - [Debug](#debug)
     - [IO](#io)
+      - [Binary](#binary)
     - [Utils](#utils)
+      - [Placement Plane](#placement-plane)
+      - [Mesh Builder](#mesh-builder)
   - [Included Demos](#included-demos)
 
 ## Scripts
@@ -26,55 +29,165 @@ Author: [Radek Titěra](https://github.com/Rodak123)
 
 The `Hexagon` is the core of this library.
 
-It is defined as an immutable `record` of **axial coordinates** `Q`, `R` and `S`.
-
 All hexagons enforce $Q + R + S = 0$
 
-### Geometry
+A `Heaxgon` is defined as an immutable `record` of **axial coordinates** `Q`, `R` and `S`.
+
+`Heaxgon`s hash is the combination of `Q`, `R` and `S`, so two hexagons equal when they have the same coordinates.
+
+Main features:
+- **Scalar** and **vector** operations
+  - $Hex + Hex$
+  - $Hex - Hex$
+  - $Hex * N$
+  - $Hex / N$
+- `Distance` between two hexagons
+- `Lerp` between two hexagons
+- `IsValid` validates hexagon coordinates
+- **Rounding** to a hexagon
+  - `GetNearestHexagon`
+  - `GetNearestHexagonRound`
+  - `GetNearestHexagonFloor`
+
+### Geometry 2D
 
 [`Rodak.Hexagons.HexGeometry`](./Scripts/HexGeometry/)
+
+The geometry extension adds functions used for calculating 2D coordinates around the hexagon.
+
+Main features:
+- `GetCenter` gets center 2D coordinate
+- `GetCorner` gets corner 2D coordinate 
+- `GetSide` gets side 2D coordinate
+- `RotateClockwise` rotates hexagon around the origin clockwise
+- `DirectionsClockwise` are clockwise ordered directions/neighbors around the origin hexagon
+- `GetAbsoluteIndex` loops the corner/side hexagons index
+- `GetHexagonAt` gets hexagon that contains the 2D coordinate
 
 ### Geometry 3D
 
 [`Rodak.Hexagons.HexGeometry3D`](./Scripts/HexGeometry3D/)
 
-geometry 3d
+The geometry 3D extension adds functions used for translating the 2D coordinates to and from a 3D plane.
+
+Uses a default `PlacementPlane` when none specified.
+
+Main features:
+- `GetCenter3D` gets center 3D coordinate
+- `GetCorner3D` gets corner 3D coordinate 
+- `GetSide3D` gets side 3D coordinate
+- `GetHexagonAt` gets hexagon that contains the 3D coordinate
 
 ### Grid
 
 [`Rodak.Hexagons.HexGrid`](./Scripts/HexGrid/)
 
-grid
+The `HexagonGrid<TTile>` is a generic definition of a 2D grid with a fixed size.
+
+These scripts define:
+- `hexagonPosition` as a position of a tile
+
+Main features:
+- Indexer with [`hexagonPosition`] as the index
+- `TryGetValue` tries to get the value at the `hexagonPosition`
+- `TrySetValue` tries to set the value at the `hexagonPosition`
+- `ContainsHexagon` checks if a hexagon is contained in this grid
+- `ForEach` executes a `System.Action` for every tile
+- `Hexagons` is a list of all contained `hexagonPosition`s
 
 ### Map
 
 [`Rodak.Hexagons.HexMap`](./Scripts/HexMap/)
 
-map
+The `AHexagonMap<TTile, GChunk>` is a generic abstract definition of an infinite chunk-based map.
+It requires a tile and chunk type.
+
+The `HexagonMap<TTile>` is a generic definition of a basic map that uses the `HexagonChunk<TTile>`, which is a generic definition of a basic chunk.
+These basic definitions are useful for simpler use case. It is recommended to implement your own map and chunk definition, they should inherit from `AHexagonMap<TTile, GChunk>` and `HexagonChunk<TTile>` respectively.
+
+These scripts define:
+- `hexagonPosition` as a position of a tile
+- `chunkPosition` as a position of a chunk
+
+Main features of the base map:
+- Indexer of chunks with [`chunkPosition`] as the index
+- `GetOrCreateChunk` tries to get the chunk at the `chunkPosition` and creates a new one if fails
+- `TryGetChunk` tries to get the chunk at the `chunkPosition`
+- `TryGetHexagonsChunk` tries to get the chunk at the `hexagonPosition`
+- `TryRemoveChunk` tries to remove the chunk at the `chunkPosition`
+- `GetChunkPosition` calculates the `chunkPosition` from a contained `hexagonPosition`
+- `ContainsChunkPosition` checks if a chunk position is contained in this map
+- `ForEach` executes a `System.Action` for every chunk
+
+Main features of the base chunk:
+- Indexer of tiles with [`hexagonPosition`] as the index
+- `TryGetValue` tries to get the tile at the `hexagonPosition`
+- `SetValue` tries to get the tile at the `hexagonPosition`
+- `ContainsHexagon` checks if a tile position is contained in this map
+- `ForEach` executes a `System.Action` for every tile
 
 ### Editor
 
 [`Rodak.Hexagons.HexEditor`](./Scripts/HexEditor/)
 
-editor
+Since the core definition of a `Hexagon` immutable, a different class is needed in the inspector.
+This is where `EditableHexagon` comes in. 
+
+**`EditableHexagon` should not be used outside of the inspector**. 
+
+It defines implicit conversions to `Hexagon` and back, so that it can be easily used. It has a built in auto correct that ensures $Q + R + S = 0$ Also it supports custom attributes to further improve its use.
+
+The attribute [`HexAutoCorrect(HexAutoCorrectMode)`] overrides the default auto correct behavior.
+- `HexAutoCorrectMode.TwoComponent` - Both `Q` and `R` correct `S`. `S` corrects `Q`. (default)
+- `HexAutoCorrectMode.Staggered` - Each components corrects the next one. `Q` => `R` => `S` => `Q`
+
+The attribute [`HexReadOnly`] makes the `EditableHexagon` appear read-only in the inspector.
 
 ### Debug
 
 [`Rodak.Hexagons.HexDebug`](./Scripts/HexDebug/)
 
-debug
+These scripts add functions that help to quickly debug in the scene.
+They use `UnityEngine.Debug.DrawLine` to render hexagons in the scene.
+
+Main features:
+- `DebugDraw` draws the hexagon outline and optionally the individual triangles
 
 ### IO
 
 [`Rodak.Hexagons.HexIO`](./Scripts/HexIO/)
 
-binary
+The IO extension adds functions used for serializing and deserializing hexagons and hexagonal data structures.
+
+#### Binary
+
+Adds simple `System.IO.BinaryWriter` and `System.IO.BinaryReader` extension methods for writing/reading hexagons from binary.
+
+Main features:
+- `Write` writes a hexagon to binary
+- `ReadHexagon` reads a hexagon from binary
 
 ### Utils
 
 [`Rodak.Hexagons.HexIO`](./Scripts/HexIO/)
 
-binary
+#### Placement Plane
+
+Definition of a plane in 3D space.
+
+Main features:
+- `LayOnPlane` translates a 2D coordinate to a 3D coordinate on that plane
+- `Get2DPosition` translates a 3D coordinate on that plane to a 2D coordinate
+- Predefined axis planes
+  - `XYPlane`
+  - `XZPlane`
+  - `YZPlane`
+
+#### Mesh Builder
+
+Manages verticies, uv's and submesh triangles.
+
+Easily convertable to the `UnityEngine.Mesh` with `ToMesh`.
 
 ## Included Demos
 

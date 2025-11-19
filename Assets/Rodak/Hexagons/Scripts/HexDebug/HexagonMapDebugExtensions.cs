@@ -12,9 +12,9 @@ namespace Rodak.Hexagons.HexDebug
         /// <summary>
         /// Draws an outline of each hexagon in the map. 
         /// </summary>
-        /// <typeparam name="T">Map value</typeparam>
-        public static void DebugDraw<T>(
-            this HexagonMap<T> hexagonMap,
+        /// <typeparam name="TTile">Map value</typeparam>
+        public static void DebugDraw<TTile>(
+            this HexagonMap<TTile> hexagonMap,
             PlacementPlane placementPlane,
             Color color,
             float duration = 0.0f,
