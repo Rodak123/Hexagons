@@ -15,6 +15,21 @@ namespace Rodak.Hexagons
         public static Hexagon Zero => new(0, 0, 0);
 
         /// <summary>
+        /// The direction where Q is unchanged.
+        /// </summary>
+        public static Hexagon QZero => new(0, -1, 1);
+
+        /// <summary>
+        /// The direction where R is unchanged.
+        /// </summary>
+        public static Hexagon RZero => new(-1, 0, 1);
+
+        /// <summary>
+        /// The direction where S is unchanged.
+        /// </summary>
+        public static Hexagon SZero => new(-1, 1, 0);
+
+        /// <summary>
         /// Returns the closest hexagon based on rounded and precise values.
         /// This method corrects rounding errors to ensure Q + R + S = 0.
         /// </summary>
@@ -99,6 +114,16 @@ namespace Rodak.Hexagons
             return GetNearestHexagonRound(qFloat, rFloat, sFloat);
         }
 
+        /// <summary>
+        /// Checks whether the values represent a valid hexagon.
+        /// Q + R + S = 0
+        /// </summary>
+        /// <returns>True if valid, false otherwise.</returns>
+        public static bool IsValid(int q, int r, int s)
+        {
+            return (q + r + s) == 0;
+        }
+
         /// <summary>Rounds the scalar multiplication of a Hexagon to the nearest integer coordinates.</summary>
         public static Hexagon MultRound(Hexagon a, float scalar) => GetNearestHexagonRound(a.Q * scalar, a.R * scalar, a.S * scalar);
         /// <summary>Floors the scalar multiplication of a Hexagon to the nearest integer coordinates.</summary>
@@ -143,7 +168,8 @@ namespace Rodak.Hexagons
         /// <exception cref="ArgumentException">Q + R + S != 0</exception>
         public Hexagon(int q, int r, int s)
         {
-            if (q + r + s != 0) throw new ArgumentException($"Invalid hexagon, {nameof(q)} + {nameof(r)} + {nameof(s)} must be equal to {0}");
+            if (!IsValid(q, r, s))
+                throw new ArgumentException($"Invalid hexagon, {nameof(q)} + {nameof(r)} + {nameof(s)} must be equal to {0}");
             Q = q;
             R = r;
             S = s;

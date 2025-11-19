@@ -59,10 +59,7 @@ namespace Rodak.Hexagons.HexEditor
         /// Checks if the current coordinates define a valid hexagon (Q + R + S == 0).
         /// </summary>
         /// <returns>True if the hexagon is valid, false otherwise.</returns>
-        public bool IsValid()
-        {
-            return Q + R + S == 0;
-        }
+        public bool IsValid() => Hexagon.IsValid(Q, R, S);
 
         public override string ToString()
         {

@@ -15,31 +15,44 @@ namespace Rodak.Hexagons.Demo.Relations
         [SerializeField] private EditableHexagon centerHexagon;
         [SerializeField] private DemoPlacementPlane placementPlane;
 
-        [Space]
+        [Header("Ring")]
+        [SerializeField] private int ringRadius = 6;
+        [SerializeField] private int rangeRadius = 4;
+
+        [Header("Colors")]
+        [SerializeField] private Color centerColor = Color.white;
         [SerializeField] private Gradient neighborGradient;
         [SerializeField] private Gradient diagonalGradient;
+        [SerializeField] private Gradient ringGradient;
+        [SerializeField] private Gradient rangeGradient;
 
         private void Update()
         {
             PlacementPlane plane = DemoPlacementPlanes.GetPlacementPlane(placementPlane);
-
             Hexagon center = centerHexagon;
-            center.DebugDraw(plane, Color.red, 0, true);
 
-            List<Hexagon> neighbors = center.GetNeighbors();
-            for (int i = 0; i < neighbors.Count; i++)
-            {
-                Hexagon neighbor = neighbors[i];
-                float t = (float)i / neighbors.Count;
-                neighbor.DebugDraw(plane, neighborGradient.Evaluate(t), 0, true);
-            }
+            List<Hexagon> range = center.GetRange(rangeRadius);
+            DebugDrawList(range, rangeGradient, plane);
+
+            List<Hexagon> ring = center.GetRing(ringRadius);
+            DebugDrawList(ring, ringGradient, plane);
 
             List<Hexagon> diagonals = center.GetDiagonals();
-            for (int i = 0; i < diagonals.Count; i++)
+            DebugDrawList(diagonals, diagonalGradient, plane);
+
+            List<Hexagon> neighbors = center.GetNeighbors();
+            DebugDrawList(neighbors, neighborGradient, plane);
+
+            center.DebugDraw(plane, centerColor, 0, true);
+        }
+
+        private void DebugDrawList(List<Hexagon> hexagons, Gradient gradient, PlacementPlane plane)
+        {
+            for (int i = 0; i < hexagons.Count; i++)
             {
-                Hexagon diagonal = diagonals[i];
-                float t = (float)i / diagonals.Count;
-                diagonal.DebugDraw(plane, diagonalGradient.Evaluate(t), 0, true);
+                Hexagon hexagon = hexagons[i];
+                float t = (float)i / hexagons.Count;
+                hexagon.DebugDraw(plane, gradient.Evaluate(t), 0, true);
             }
         }
     }
