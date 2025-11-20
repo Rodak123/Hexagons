@@ -61,7 +61,7 @@ namespace Rodak.Hexagons.Demo.Map
 
         private int CreateHexagonMapValue(Hexagon hexagonPosition, Hexagon chunkPosition)
         {
-            return hexagonPosition.Q + hexagonPosition.R * initialSize;
+            return hexagonPosition.q + hexagonPosition.r * initialSize;
         }
     }
 }

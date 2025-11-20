@@ -21,7 +21,7 @@ namespace Rodak.Hexagons.Demo.MapMesh.World
 
         private WorldMapTile CreateHexagonValue(Hexagon hexagonPosition, Hexagon chunkPosition)
         {
-            Vector2 noisePosition = new Vector2(hexagonPosition.Q, hexagonPosition.R) * noiseScale;
+            Vector2 noisePosition = new Vector2(hexagonPosition.q, hexagonPosition.r) * noiseScale;
             float noiseValue = Mathf.Clamp01(Mathf.PerlinNoise(noisePosition.x + seedOffset.y, noisePosition.y + seedOffset.x));
 
             int value = Mathf.FloorToInt(noiseValue * maxValue);

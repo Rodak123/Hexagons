@@ -40,7 +40,7 @@ The `Hexagon` is the core of this library.
 
 All hexagons enforce $Q + R + S = 0$
 
-A `Hexagon` is defined as an immutable `record` of **axial coordinates** `Q`, `R`, and `S`.
+A `Hexagon` is defined as an immutable `readonly struct` with **axial coordinates** `Q`, `R`, and `S`.
 
 `Hexagon`'s hash is the combination of `Q`, `R`, and `S`, so two hexagons are equal when they have the same coordinates.
 

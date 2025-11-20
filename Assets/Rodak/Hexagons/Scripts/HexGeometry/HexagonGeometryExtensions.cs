@@ -36,8 +36,8 @@ namespace Rodak.Hexagons.HexGeometry
         public static Vector2 GetCenter(this Hexagon hexagon)
         {
             return new Vector2(
-                SqrtOfThree * hexagon.Q + SqrtOfThree / 2f * hexagon.R,
-                3f / 2f * hexagon.R
+                SqrtOfThree * hexagon.q + SqrtOfThree / 2f * hexagon.r,
+                3f / 2f * hexagon.r
             );
         }
 
@@ -149,7 +149,7 @@ namespace Rodak.Hexagons.HexGeometry
         /// Calculates a clockwise rotated hexagon.
         /// </summary>
         /// <returns>Clockwise rotated hexagon</returns>
-        public static Hexagon RotateClockwise(this Hexagon hexagon) => new(-hexagon.R, -hexagon.S, -hexagon.Q);
+        public static Hexagon RotateClockwise(this Hexagon hexagon) => new(-hexagon.r, -hexagon.s, -hexagon.q);
 
         /// <summary>
         /// Calculates a clockwise rotated hexagon N times.

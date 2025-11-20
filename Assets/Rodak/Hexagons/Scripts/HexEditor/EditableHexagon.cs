@@ -16,7 +16,7 @@ namespace Rodak.Hexagons.HexEditor
         /// <summary>
         /// Allows implicit conversion from the immutable Hexagon to EditableHexagon.
         /// </summary>
-        public static implicit operator EditableHexagon(Hexagon hexagon) => new(hexagon.Q, hexagon.R, hexagon.S);
+        public static implicit operator EditableHexagon(Hexagon hexagon) => new(hexagon.q, hexagon.r, hexagon.s);
 
         /// <summary>
         /// Q axis position.

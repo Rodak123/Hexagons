@@ -12,7 +12,7 @@ namespace Rodak.Hexagons
     /// Immutable definition of a 2D hexagon made out of 3 components Q, R and S.
     /// Defined: Q + R + S = 0
     /// </summary>
-    public record Hexagon
+    public readonly struct Hexagon
     {
         /// <summary>
         /// The origin hexagon (0, 0, 0).
@@ -101,7 +101,7 @@ namespace Rodak.Hexagons
         public static float Distance(Hexagon a, Hexagon b)
         {
             Hexagon diff = a - b;
-            return (Math.Abs(diff.Q) + Math.Abs(diff.R) + Math.Abs(diff.S)) / 2f;
+            return (Math.Abs(diff.q) + Math.Abs(diff.r) + Math.Abs(diff.s)) / 2f;
         }
 
         /// <summary>
@@ -112,9 +112,9 @@ namespace Rodak.Hexagons
         {
             t = Mathf.Clamp01(t);
 
-            float qFloat = Mathf.Lerp(start.Q, end.Q, t);
-            float rFloat = Mathf.Lerp(start.R, end.R, t);
-            float sFloat = Mathf.Lerp(start.S, end.S, t);
+            float qFloat = Mathf.Lerp(start.q, end.q, t);
+            float rFloat = Mathf.Lerp(start.r, end.r, t);
+            float sFloat = Mathf.Lerp(start.s, end.s, t);
 
             return GetNearestHexagonRound(qFloat, rFloat, sFloat);
         }
@@ -129,55 +129,52 @@ namespace Rodak.Hexagons
             return (q + r + s) == 0;
         }
 
-        /// <summary>Rounds the scalar multiplication of a Hexagon to the nearest integer coordinates.</summary>
-        public static Hexagon MultRound(Hexagon a, float scalar) => GetNearestHexagonRound(a.Q * scalar, a.R * scalar, a.S * scalar);
-        /// <summary>Floors the scalar multiplication of a Hexagon to the nearest integer coordinates.</summary>
-        public static Hexagon MultFloor(Hexagon a, float scalar) => GetNearestHexagonFloor(a.Q * scalar, a.R * scalar, a.S * scalar);
+        /// <summary>Rounds the scalar multiplication of a hexagon to the nearest integer coordinates.</summary>
+        public static Hexagon MultRound(Hexagon a, float scalar) => GetNearestHexagonRound(a.q * scalar, a.r * scalar, a.s * scalar);
+        /// <summary>Floors the scalar multiplication of a hexagon to the nearest integer coordinates.</summary>
+        public static Hexagon MultFloor(Hexagon a, float scalar) => GetNearestHexagonFloor(a.q * scalar, a.r * scalar, a.s * scalar);
 
-        /// <summary>Rounds the scalar division of a Hexagon to the nearest integer coordinates.</summary>
-        public static Hexagon DivRound(Hexagon a, float scalar) => GetNearestHexagonRound(a.Q / scalar, a.R / scalar, a.S / scalar);
-        /// <summary>Floors the scalar division of a Hexagon to the nearest integer coordinates.</summary>
-        public static Hexagon DivFloor(Hexagon a, float scalar) => GetNearestHexagonFloor(a.Q / scalar, a.R / scalar, a.S / scalar);
+        /// <summary>Rounds the scalar division of a hexagon to the nearest integer coordinates.</summary>
+        public static Hexagon DivRound(Hexagon a, float scalar) => GetNearestHexagonRound(a.q / scalar, a.r / scalar, a.s / scalar);
+        /// <summary>Floors the scalar division of a hexagon to the nearest integer coordinates.</summary>
+        public static Hexagon DivFloor(Hexagon a, float scalar) => GetNearestHexagonFloor(a.q / scalar, a.r / scalar, a.s / scalar);
 
-        /// <summary>Returns the Hexagon instance without modification.</summary>
         public static Hexagon operator +(Hexagon a) => a;
-        /// <summary>Negative version of the hexagon.</summary>
-        public static Hexagon operator -(Hexagon a) => new(-a.Q, -a.R, -a.S);
+        public static Hexagon operator -(Hexagon a) => new(-a.q, -a.r, -a.s);
 
-        /// <summary>Adds two Hexagon coordinates (vector addition).</summary>
-        public static Hexagon operator +(Hexagon a, Hexagon b) => new(a.Q + b.Q, a.R + b.R, a.S + b.S);
-        /// <summary>Subtracts one Hexagon coordinate from another (vector subtraction).</summary>
-        public static Hexagon operator -(Hexagon a, Hexagon b) => new(a.Q - b.Q, a.R - b.R, a.S - b.S);
+        public static Hexagon operator +(Hexagon a, Hexagon b) => new(a.q + b.q, a.r + b.r, a.s + b.s);
+        public static Hexagon operator -(Hexagon a, Hexagon b) => new(a.q - b.q, a.r - b.r, a.s - b.s);
 
-        /// <summary>Multiplies a Hexagon by a scalar and rounds the result to the nearest valid Hexagon.</summary>
         public static Hexagon operator *(Hexagon a, float scalar) => MultRound(a, scalar);
-        /// <summary>Divides a Hexagon by a scalar and rounds the result to the nearest valid Hexagon.</summary>
         public static Hexagon operator /(Hexagon a, float scalar) => DivRound(a, scalar);
+
+        public static bool operator ==(Hexagon a, Hexagon b) => a.q == b.q && a.r == b.r;
+        public static bool operator !=(Hexagon a, Hexagon b) => a.q != b.q && a.r != b.r;
 
         /// <summary>
         /// Q axis position.
         /// </summary>
-        public int Q { get; private set; }
+        public readonly int q;
         /// <summary>
         /// R axis position.
         /// </summary>
-        public int R { get; private set; }
+        public readonly int r;
         /// <summary>
         /// S axis position.
         /// </summary>
-        public int S { get; private set; }
+        public readonly int s;
 
         /// <summary>
-        /// New hexagon, throws an <see cref="ArgumentException"/> when Q + R + S != 0. 
+        /// New hexagon
         /// </summary>
         /// <exception cref="ArgumentException">Q + R + S != 0</exception>
         public Hexagon(int q, int r, int s)
         {
             if (!IsValid(q, r, s))
                 throw new ArgumentException($"Invalid hexagon, {nameof(q)} + {nameof(r)} + {nameof(s)} must be equal to {0}");
-            Q = q;
-            R = r;
-            S = s;
+            this.q = q;
+            this.r = r;
+            this.s = s;
         }
 
         /// <summary>
@@ -185,18 +182,23 @@ namespace Rodak.Hexagons
         /// </summary>
         public Hexagon(int q, int r) : this(q, r, -(q + r)) { }
 
-        /// <summary>
-        /// Calculates a hash code for the Hexagon based on its Q, R, and S values.
-        /// </summary>
-        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(Q, R, S);
+            return HashCode.Combine(q, r, s);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Hexagon other)
+            {
+                return other == this;
+            }
+            return false;
         }
 
         public override string ToString()
         {
-            return $"Hex[{Q}, {R}, {S}]";
+            return $"Hex[{q}, {r}, {s}]";
         }
     }
 }

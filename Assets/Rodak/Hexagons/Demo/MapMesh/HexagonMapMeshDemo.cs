@@ -90,7 +90,7 @@ namespace Rodak.Hexagons.Demo.MapMesh
             int layerMask = 1 << gameObject.layer;
             if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
             {
-                hexagonPosition = null;
+                hexagonPosition = default;
                 return false;
             }
 

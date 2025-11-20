@@ -12,8 +12,8 @@ namespace Rodak.Hexagons.HexIO
         /// </summary>
         public static void Write(this BinaryWriter bw, Hexagon hexagon)
         {
-            bw.Write(hexagon.Q);
-            bw.Write(hexagon.R);
+            bw.Write(hexagon.q);
+            bw.Write(hexagon.r);
         }
 
         /// <summary>

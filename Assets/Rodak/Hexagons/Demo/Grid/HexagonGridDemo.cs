@@ -23,7 +23,7 @@ namespace Rodak.Hexagons.Demo.Grid
 
         private int CreateHexagonGridValue(Hexagon position)
         {
-            return position.Q + position.R * size;
+            return position.q + position.r * size;
         }
     }
 }
