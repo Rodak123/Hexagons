@@ -13,12 +13,12 @@ namespace Rodak.Hexagons.HexUtils
         /// <summary>
         /// All vertices.
         /// </summary>
-        public readonly List<Vector3> Vertices = new();
+        private readonly List<Vector3> vertices = new();
 
         /// <summary>
         /// All uvs.
         /// </summary>
-        public readonly List<Vector2> UV = new();
+        private readonly List<Vector2> uv = new();
 
         /// <summary>
         /// Per-submesh triangle lists.
@@ -30,14 +30,35 @@ namespace Rodak.Hexagons.HexUtils
         /// <summary>
         /// Whether the mesh has no vertices.
         /// </summary>
-        public bool IsEmpty => Vertices.Count == 0;
+        public bool IsEmpty => vertices.Count == 0;
+        public List<Vector3> Vertices => vertices;
+        public List<Vector2> UV => uv;
 
         /// <summary>
-        /// Initializes a new, empty instance of the MeshBuilder class.
+        /// Initializes a new, empty instance.
         /// </summary>
         public MeshBuilder()
         {
             EnsureSubmesh(0); // always at least one submesh
+        }
+
+        /// <summary>
+        /// Initializes a new copy instance.
+        /// </summary>
+        public MeshBuilder(MeshBuilder other)
+        {
+            vertices.AddRange(other.vertices);
+            uv.AddRange(other.uv);
+            submeshTriangles.AddRange(other.submeshTriangles);
+            this.vertexOffset = other.vertexOffset;
+        }
+
+        /// <summary>
+        /// Initializes a new instance and appends the initial data to submesh 0.
+        /// </summary>
+        public MeshBuilder(IEnumerable<Vector3> vertices, IEnumerable<Vector2> uv, IEnumerable<int> triangles)
+        {
+            AppendToSubmesh(0, vertices, uv, triangles);
         }
 
         /// <summary>
@@ -50,15 +71,6 @@ namespace Rodak.Hexagons.HexUtils
 
             while (submeshTriangles.Count <= submeshIndex)
                 submeshTriangles.Add(new List<int>());
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the MeshBuilder class and appends the initial data to submesh 0.
-        /// </summary>
-        public MeshBuilder(IEnumerable<Vector3> vertices, IEnumerable<Vector2> uv, IEnumerable<int> triangles)
-        {
-            EnsureSubmesh(0);
-            AppendToSubmesh(0, vertices, uv, triangles);
         }
 
         /// <summary>
@@ -83,8 +95,8 @@ namespace Rodak.Hexagons.HexUtils
 
             EnsureSubmesh(submeshIndex);
 
-            Vertices.AddRange(vertices);
-            UV.AddRange(uv);
+            this.vertices.AddRange(vertices);
+            this.uv.AddRange(uv);
 
             List<int> triList = submeshTriangles[submeshIndex];
             triList.AddRange(triangles.Select(i => i + vertexOffset));
@@ -103,7 +115,7 @@ namespace Rodak.Hexagons.HexUtils
         public void Append(MeshBuilder other, int submeshIndex)
         {
             EnsureSubmesh(submeshIndex);
-            AppendToSubmesh(submeshIndex, other.Vertices, other.UV, other.GetTriangles(0));
+            AppendToSubmesh(submeshIndex, other.vertices, other.uv, other.GetTriangles(0));
         }
 
         /// <summary>
@@ -129,8 +141,8 @@ namespace Rodak.Hexagons.HexUtils
         {
             Mesh mesh = new()
             {
-                vertices = Vertices.ToArray(),
-                uv = UV.ToArray(),
+                vertices = vertices.ToArray(),
+                uv = uv.ToArray(),
                 subMeshCount = submeshTriangles.Count
             };
 
@@ -148,7 +160,7 @@ namespace Rodak.Hexagons.HexUtils
         public override string ToString()
         {
             int totalTriangles = submeshTriangles.Sum((val) => val.Count);
-            return $"{nameof(MeshBuilder)}[V: {Vertices.Count}, UV: {UV.Count}, subT: {submeshTriangles.Count}, T: {totalTriangles}]";
+            return $"{nameof(MeshBuilder)}[V: {vertices.Count}, UV: {uv.Count}, subT: {submeshTriangles.Count}, T: {totalTriangles}]";
         }
 
     }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Rodak.Hexagons.Demo.MapMesh.World;
 using Rodak.Hexagons.HexGeometry3D;
-using Rodak.Hexagons.HexMap;
 using Rodak.Hexagons.HexNavigation;
 using Rodak.Hexagons.HexUtils;
 using UnityEngine;
@@ -37,12 +36,14 @@ namespace Rodak.Hexagons.Demo.MapMesh
 
             meshBuilder.EnsureSubmesh(meshMaterials.Length);
 
+            MeshBuilder precomuptedTopCap = Hexagon.Zero.GetMesh(flipped: false, yOffset: 0, placementPlane);
+
             chunk.ForEach((Hexagon hexagonPosition, WorldMapTile tile) =>
             {
                 int submeshIndex = tile.Value;
                 float height = tile.GetHeight(stepHeight);
 
-                MeshBuilder topCap = hexagonPosition.GetMesh(flipped: false, height, placementPlane);
+                MeshBuilder topCap = hexagonPosition.GetMesh(flipped: false, yOffset: height, placementPlane);
                 meshBuilder.Append(topCap, submeshIndex);
 
                 List<Hexagon> excludedDirections = new();

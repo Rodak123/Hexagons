@@ -12,6 +12,7 @@ namespace Rodak.Hexagons.HexGeometry3D
      */
     public static class HexagonMeshExtensions
     {
+
         /// <summary>
         /// Creates a new MeshBuilder with a single hexagon face.
         /// </summary>
@@ -43,6 +44,7 @@ namespace Rodak.Hexagons.HexGeometry3D
 
             return new(vertices, uv, triangles);
         }
+
 
         /// <summary>
         /// Creates a new MeshBuilder with prism walls, excluded directions are skipped.
@@ -101,5 +103,6 @@ namespace Rodak.Hexagons.HexGeometry3D
 
             return meshBuillder;
         }
+
     }
 }

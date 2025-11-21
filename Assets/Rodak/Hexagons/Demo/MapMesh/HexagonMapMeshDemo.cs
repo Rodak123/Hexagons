@@ -1,11 +1,9 @@
-using Rodak.Hexagons.HexMap;
 using UnityEngine;
 using Rodak.Hexagons.HexUtils;
 using System;
 using Random = UnityEngine.Random;
 using Rodak.Hexagons.HexGeometry3D;
 using System.Collections.Generic;
-using System.Linq;
 using Rodak.Hexagons.Demo.MapMesh.World;
 
 namespace Rodak.Hexagons.Demo.MapMesh
@@ -99,12 +97,23 @@ namespace Rodak.Hexagons.Demo.MapMesh
             return true;
         }
 
+        private void RemoveChunks(HashSet<Hexagon> chunkPositionsToRemove)
+        {
+            foreach (Hexagon chunkPosition in chunkPositionsToRemove)
+            {
+                MapChunkComponent chunkComponent = generatedChunks[chunkPosition];
+                chunkComponent.DestroySelf();
+                generatedChunks.Remove(chunkPosition);
+            }
+
+        }
+
         public void ShowChunksAround(Hexagon hexagonPosition)
         {
             Hexagon centerChunkPosition = map.GetChunkPosition(hexagonPosition);
 
             List<MapChunkComponent> newChunks = new();
-            HashSet<Hexagon> visibleChunks = new();
+            HashSet<Hexagon> visibleChunksPositions = new();
 
             for (int q = -visibleChunkArea; q <= visibleChunkArea; q++)
             {
@@ -112,7 +121,7 @@ namespace Rodak.Hexagons.Demo.MapMesh
                 {
                     if (q + r > visibleChunkArea || q + r < -visibleChunkArea) continue;
                     Hexagon chunkPosition = new Hexagon(q, r) + centerChunkPosition;
-                    visibleChunks.Add(chunkPosition);
+                    visibleChunksPositions.Add(chunkPosition);
 
                     WorldMapChunk chunk = map.GetOrCreateChunk(chunkPosition, out bool wasCreated);
 
@@ -123,21 +132,23 @@ namespace Rodak.Hexagons.Demo.MapMesh
                 }
             }
 
-            HashSet<Hexagon> invisibleChunks = generatedChunks.Keys
-                .Where((hexagon) => !visibleChunks.Contains(hexagon))
-                .ToHashSet();
-
-            foreach (Hexagon chunkPosition in invisibleChunks)
+            HashSet<Hexagon> chunkPositionsToRemove = new();
+            foreach (var kvp in generatedChunks)
             {
-                MapChunkComponent chunkComponent = generatedChunks[chunkPosition];
-                chunkComponent.DestroySelf();
-                generatedChunks.Remove(chunkPosition);
+                if (!visibleChunksPositions.Contains(kvp.Key))
+                {
+                    chunkPositionsToRemove.Add(kvp.Key);
+                }
             }
+
+            RemoveChunks(chunkPositionsToRemove);
+
 
             foreach (MapChunkComponent chunkComponent in newChunks)
             {
                 chunkComponent.GenerateMesh();
             }
+
         }
     }
 }
