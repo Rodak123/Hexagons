@@ -19,6 +19,8 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <returns>MeshBuilder with a single hexagon face</returns>
         public static MeshBuilder GetMesh(this Hexagon hexagon, bool flipped, float yOffset = 0, PlacementPlane placementPlane = null)
         {
+            placementPlane = HexagonGeometry3DExtensions.Fallback(placementPlane);
+
             Vector3 vertexOffset = placementPlane.Normal * yOffset;
 
             Vector3[] vertices = new Vector3[7];
@@ -53,6 +55,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         public static MeshBuilder GetPrismWallsMesh(this Hexagon hexagon, float height = 1, IEnumerable<Hexagon> excludedDirections = null, PlacementPlane placementPlane = null)
         {
             const float FullStep = 1f;
+            placementPlane = HexagonGeometry3DExtensions.Fallback(placementPlane);
 
             MeshBuilder meshBuillder = new();
 

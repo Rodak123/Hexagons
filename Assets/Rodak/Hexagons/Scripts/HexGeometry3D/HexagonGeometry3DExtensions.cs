@@ -14,7 +14,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// </summary>
         public static PlacementPlane DefaultPlacementPlane = PlacementPlane.XZPlane;
 
-        private static PlacementPlane GetPlacementPlane(PlacementPlane placementPlane) => placementPlane ?? DefaultPlacementPlane;
+        public static PlacementPlane Fallback(PlacementPlane placementPlane) => placementPlane ?? DefaultPlacementPlane;
 
         /// <summary>
         /// Calculates a hexagon's center on a 3D plane.
@@ -22,7 +22,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <returns>Center position</returns>
         public static Vector3 GetCenter3D(this Hexagon hexagon, PlacementPlane placementPlane = null)
         {
-            return GetPlacementPlane(placementPlane).LayOnPlane(hexagon.GetCenter());
+            return Fallback(placementPlane).LayOnPlane(hexagon.GetCenter());
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <returns>Corner position</returns>
         public static Vector3 GetCorner3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
         {
-            return GetPlacementPlane(placementPlane).LayOnPlane(hexagon.GetCorner(index));
+            return Fallback(placementPlane).LayOnPlane(hexagon.GetCorner(index));
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <returns>Side center position</returns>
         public static Vector3 GetSide3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
         {
-            return GetPlacementPlane(placementPlane).LayOnPlane(hexagon.GetSide(index));
+            return Fallback(placementPlane).LayOnPlane(hexagon.GetSide(index));
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// <returns>Hexagon containing this point</returns>
         public static Hexagon GetHexagonAt(Vector3 point, PlacementPlane placementPlane = null)
         {
-            Vector2 planePosition = GetPlacementPlane(placementPlane).Get2DPosition(point);
+            Vector2 planePosition = Fallback(placementPlane).Get2DPosition(point);
             return HexagonGeometryExtensions.GetHexagonAt(planePosition.x, planePosition.y);
         }
     }
