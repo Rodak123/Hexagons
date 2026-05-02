@@ -20,7 +20,7 @@ namespace Rodak.Hexagons.Demo
                 DemoPlacementPlane.XY => PlacementPlane.XYPlane,
                 DemoPlacementPlane.XZ => PlacementPlane.XZPlane,
                 DemoPlacementPlane.YZ => PlacementPlane.YZPlane,
-                _ => throw new ArgumentException($"Plane {plane} is unknown"),
+                _ => throw new ArgumentException($"Plane is unknown"),
             };
         }
     }

@@ -11,6 +11,7 @@ namespace Rodak.Hexagons.Demo.MapMesh
     /// Manages a map chunk.
     /// Generates its mesh and removes it when destroyed.
     /// </summary>
+    [RequireComponent(typeof(MeshFilter), typeof(MeshCollider), typeof(MeshRenderer))]
     public class MapChunkComponent : MonoBehaviour
     {
         private WorldMap map;
@@ -67,7 +68,7 @@ namespace Rodak.Hexagons.Demo.MapMesh
             });
 
             Mesh mesh = meshBuilder.ToMesh();
-            mesh.name = $"{gameObject.name} Mesh";
+            mesh.name = $"{chunk.Position.ToString()} Mesh";
             return mesh;
         }
 
@@ -83,10 +84,10 @@ namespace Rodak.Hexagons.Demo.MapMesh
             gameObject.name = chunk.ToString();
             gameObject.layer = meshLayer;
 
-            meshFilter = gameObject.AddComponent<MeshFilter>();
-            meshCollider = gameObject.AddComponent<MeshCollider>();
-            MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            meshFilter = gameObject.GetComponent<MeshFilter>();
+            meshCollider = gameObject.GetComponent<MeshCollider>();
 
+            MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
             meshRenderer.materials = meshMaterials;
         }
 

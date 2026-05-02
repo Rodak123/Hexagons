@@ -62,10 +62,10 @@ namespace Rodak.Hexagons.Demo.MapMesh
 
         private MapChunkComponent CreateChunkComponent(WorldMapChunk chunk)
         {
-            GameObject chunkComponentGO = new("Chunk");
+            GameObject chunkComponentGO = new("Chunk", typeof(MapChunkComponent));
             chunkComponentGO.transform.parent = transform;
 
-            MapChunkComponent chunkComponent = chunkComponentGO.AddComponent<MapChunkComponent>();
+            MapChunkComponent chunkComponent = chunkComponentGO.GetComponent<MapChunkComponent>();
             chunkComponent.Init(map, chunk, meshMaterials, placementPlane, stepHeight, gameObject.layer);
 
             return chunkComponent;

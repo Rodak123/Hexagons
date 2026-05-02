@@ -67,7 +67,7 @@ namespace Rodak.Hexagons.HexUtils
         public void EnsureSubmesh(int submeshIndex)
         {
             if (submeshIndex < 0)
-                throw new ArgumentException($"{nameof(submeshIndex)} must be above {0}");
+                throw new ArgumentException($"{nameof(submeshIndex)} must be above 0");
 
             while (submeshTriangles.Count <= submeshIndex)
                 submeshTriangles.Add(new List<int>());

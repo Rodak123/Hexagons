@@ -37,7 +37,7 @@ namespace Rodak.Hexagons.HexNavigation
             get
             {
                 if (index < 0 || index >= Length)
-                    throw new IndexOutOfRangeException($"{nameof(index)}: '{index}' must be betwen {0} and {Length}.");
+                    throw new IndexOutOfRangeException($"{nameof(index)}: '{index.ToString()}' must be betwen 0 and {Length.ToString()}.");
 
                 return hexagons[index];
             }
