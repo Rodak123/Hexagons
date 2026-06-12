@@ -17,7 +17,7 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// Creates a new MeshBuilder with a single hexagon face.
         /// </summary>
         /// <returns>MeshBuilder with a single hexagon face</returns>
-        public static MeshBuilder GetMesh(this Hexagon hexagon, bool flipped, float yOffset = 0, PlacementPlane placementPlane = null)
+        public static MeshBuilder GetMesh(this Hexagon hexagon, bool flipped, float yOffset = 0, PlacementPlane placementPlane = null, float size = 1)
         {
             placementPlane = HexagonGeometry3DExtensions.Fallback(placementPlane);
 
@@ -25,7 +25,7 @@ namespace Rodak.Hexagons.HexGeometry3D
 
             Vector3[] vertices = new Vector3[7];
             for (int i = 0; i < 6; i++)
-                vertices[i] = hexagon.GetCorner3D(i, placementPlane) + vertexOffset;
+                vertices[i] = hexagon.GetCorner3D(i, placementPlane, size) + vertexOffset;
             vertices[6] = hexagon.GetCenter3D(placementPlane) + vertexOffset;
 
             Vector2[] uv = new Vector2[7];
@@ -57,7 +57,7 @@ namespace Rodak.Hexagons.HexGeometry3D
             const float FullStep = 1f;
             placementPlane = HexagonGeometry3DExtensions.Fallback(placementPlane);
 
-            MeshBuilder meshBuillder = new();
+            MeshBuilder meshBuilder = new();
 
             for (int i = 0; i < 6; i++)
             {
@@ -98,13 +98,13 @@ namespace Rodak.Hexagons.HexGeometry3D
                         0, 2, 1, // A, C, B
                         1, 2, 3  // B, C, D
                     };
-                    meshBuillder.Append(vertices, uv, triangles);
+                    meshBuilder.Append(vertices, uv, triangles);
 
                     y += step;
                 }
             }
 
-            return meshBuillder;
+            return meshBuilder;
         }
 
     }

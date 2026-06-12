@@ -102,11 +102,11 @@ namespace Rodak.Hexagons.HexGeometry
         /// Calculates a hexagon's corner on a 2D plane.
         /// </summary>
         /// <returns>Corner position</returns>
-        public static Vector2 GetCorner(this Hexagon hexagon, int index)
+        public static Vector2 GetCorner(this Hexagon hexagon, int index, float size = 1f)
         {
             Vector2 center = hexagon.GetCenter();
             Vector2 cornerDirection = GetCornerDirection(index);
-            return center + cornerDirection;
+            return center + cornerDirection * size;
         }
 
         /// <summary>
@@ -126,13 +126,13 @@ namespace Rodak.Hexagons.HexGeometry
         /// Calculates a hexagon's side on a 2D plane.
         /// </summary>
         /// <returns>Side center position</returns>
-        public static Vector2 GetSide(this Hexagon hexagon, int index)
+        public static Vector2 GetSide(this Hexagon hexagon, int index, float size = 1f)
         {
             index = GetAbsoluteIndex(index);
 
             Vector2 center = hexagon.GetCenter();
             Hexagon direction = DirectionsClockwise[index];
-            return center + direction.GetCenter() / 2f;
+            return center + direction.GetCenter() / 2f * size;
         }
 
         /// <summary>

@@ -29,18 +29,18 @@ namespace Rodak.Hexagons.HexGeometry3D
         /// Calculates a hexagon's corner on a 3D plane.
         /// </summary>
         /// <returns>Corner position</returns>
-        public static Vector3 GetCorner3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
+        public static Vector3 GetCorner3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null, float size = 1f)
         {
-            return Fallback(placementPlane).LayOnPlane(hexagon.GetCorner(index));
+            return Fallback(placementPlane).LayOnPlane(hexagon.GetCorner(index, size));
         }
 
         /// <summary>
         /// Calculates a hexagon's side on a 3D plane.
         /// </summary>
         /// <returns>Side center position</returns>
-        public static Vector3 GetSide3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null)
+        public static Vector3 GetSide3D(this Hexagon hexagon, int index, PlacementPlane placementPlane = null, float size = 1f)
         {
-            return Fallback(placementPlane).LayOnPlane(hexagon.GetSide(index));
+            return Fallback(placementPlane).LayOnPlane(hexagon.GetSide(index, size));
         }
 
         /// <summary>
