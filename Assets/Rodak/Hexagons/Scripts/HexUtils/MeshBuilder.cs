@@ -107,7 +107,7 @@ namespace Rodak.Hexagons.HexUtils
         /// <summary>
         /// Merges self with another MeshBuilder into submesh 0.
         /// </summary>
-        public void Append(MeshBuilder other) => Append(other);
+        public void Append(MeshBuilder other) => Append(other, 0);
 
         /// <summary>
         /// Merges self with another MeshBuilder into a submesh.
