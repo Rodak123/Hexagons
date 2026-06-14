@@ -1,5 +1,7 @@
 # Just Hexagons
 
+A bundle full of useful scripts for working with hexagons in every way.
+
 [Documentation](Assets/Rodak/Hexagons/README.MD)
 
 [Just Hexagons on Unity Asset Store](https://assetstore.unity.com/packages/tools/utilities/just-hexagons-345388)
